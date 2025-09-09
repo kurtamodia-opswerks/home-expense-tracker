@@ -13,10 +13,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import { usePathname } from "next/navigation";
+import {
+  RegisterLink,
+  LoginLink,
+  LogoutLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-export function Navbar() {
+export async function Navbar() {
   const pathname = usePathname();
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
 
   const navItems = [
     { href: "/", icon: User, label: "Users" },
@@ -49,6 +59,21 @@ export function Navbar() {
             </NavigationMenuItem>
           );
         })}
+        <NavigationMenuItem>
+          <div>
+            {user ? (
+              <LogoutLink className={buttonVariants()}>Logout</LogoutLink>
+            ) : (
+              <>
+                {" "}
+                <LoginLink className={buttonVariants()}>Sign in</LoginLink>
+                <RegisterLink className={buttonVariants()}>
+                  Sign up
+                </RegisterLink>
+              </>
+            )}
+          </div>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );

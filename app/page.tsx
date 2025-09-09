@@ -1,14 +1,3 @@
-import AddUserForm from "@/components/users/AddUserForm";
-import UserList from "@/components/users/UserList";
-
 export default function Home() {
-  // simple trick to refresh server component
-
-  return (
-    <div className="flex flex-col items-center gap-6 p-6">
-      <h1 className="text-3xl font-bold">Home Expense Tracker App</h1>
-      <AddUserForm />
-      <UserList />
-    </div>
-  );
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
 }
