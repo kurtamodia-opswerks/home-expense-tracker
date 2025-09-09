@@ -44,7 +44,7 @@ export default function AddUserForm() {
         >
           <div className="flex flex-col">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" placeholder="John Doe" required />
+            <Input id="name" name="name" placeholder="Enter name" required />
           </div>
 
           <div className="flex flex-col">
@@ -53,7 +53,7 @@ export default function AddUserForm() {
               id="age"
               name="age"
               type="number"
-              placeholder="30"
+              placeholder="Enter age"
               min={1}
               required
             />

@@ -1,7 +1,9 @@
 // components/users/UserList.tsx
 import { db } from "@/db/index";
-import { usersTable } from "@/db/schema";
+import { usersTable, SelectUser } from "@/db/schema";
 import { unstable_cache } from "next/cache";
+import DeleteUserButton from "./DeleteUserButton";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Wrap query in a cache with "users" tag
@@ -12,7 +14,7 @@ const getUsers = unstable_cache(
 );
 
 export default async function UserList() {
-  const users = await getUsers();
+  const users: SelectUser[] = await getUsers();
 
   return (
     <Card className="w-full max-w-md mt-6">
@@ -29,6 +31,7 @@ export default async function UserList() {
                 <p>
                   <strong>{user.name}</strong> ({user.age}) - {user.email}
                 </p>
+                <DeleteUserButton userId={user.id} />
               </li>
             ))}
           </ul>
