@@ -22,10 +22,10 @@ const getTransactionShares = unstable_cache(
       .select({
         id: transactionSharesTable.id,
         transactionDescription: transactionsTable.description,
-        userName: usersTable.name,
+        debtorName: usersTable.name, // debtor
         toPay: transactionSharesTable.amount,
         paid: transactionSharesTable.paid,
-        payerId: transactionsTable.payerId,
+        receiverName: sql<string>`payer.name`,
       })
       .from(transactionSharesTable)
       .leftJoin(
@@ -34,8 +34,9 @@ const getTransactionShares = unstable_cache(
       )
       .leftJoin(
         usersTable,
-        sql`${transactionSharesTable.userId} = ${usersTable.id}`
+        sql`${transactionSharesTable.userId} = ${usersTable.id}` // debtor
       )
+      .leftJoin(sql`users AS payer`, sql`transactions.payer_id = payer.id`)
       .all(),
   ["transaction_shares"],
   { tags: ["transaction_shares"] }
@@ -58,7 +59,7 @@ export default async function TransactionSharesList() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Transaction</TableHead>
-                  <TableHead>User</TableHead>
+                  <TableHead>Debtor</TableHead>
                   <TableHead className="text-right">To Pay</TableHead>
                   <TableHead className="text-center">Receiver</TableHead>
                 </TableRow>
@@ -67,9 +68,11 @@ export default async function TransactionSharesList() {
                 {shares.map((s) => (
                   <TableRow key={s.id}>
                     <TableCell>{s.transactionDescription}</TableCell>
-                    <TableCell>{s.userName}</TableCell>
+                    <TableCell>{s.debtorName}</TableCell>
                     <TableCell className="text-right">₱ {s.toPay}</TableCell>
-                    <TableCell className="text-center">{s.payerId}</TableCell>
+                    <TableCell className="text-center">
+                      {s.receiverName}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
