@@ -38,6 +38,7 @@ export async function deleteTransaction(transactionId: number) {
 
     // Invalidate cache tagged for transactions
     revalidateTag("transactions");
+    revalidateTag("transaction_shares");
 
     return { success: true };
   } catch (error) {
@@ -50,7 +51,7 @@ export async function addTransactionWithShares(data: {
   description: string;
   amount: number;
   payerId: number;
-  userIds: number[]; // users involved
+  userIds: number[];
 }) {
   try {
     // Insert the transaction

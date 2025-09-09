@@ -8,6 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface AddTransactionFormProps {
   users: SelectUser[];
@@ -16,7 +25,7 @@ interface AddTransactionFormProps {
 export default function AddTransactionForm({ users }: AddTransactionFormProps) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState<number | "">("");
-  const [payerId, setPayerId] = useState<number | "">("");
+  const [payerId, setPayerId] = useState<string>("");
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +46,6 @@ export default function AddTransactionForm({ users }: AddTransactionFormProps) {
 
     try {
       setLoading(true);
-
       const result = await addTransactionWithShares({
         description,
         amount: Number(amount),
@@ -93,37 +101,42 @@ export default function AddTransactionForm({ users }: AddTransactionFormProps) {
 
           <div className="flex flex-col">
             <Label htmlFor="payer">Payer</Label>
-            <select
-              id="payer"
-              value={payerId}
-              onChange={(e) => setPayerId(Number(e.target.value))}
+            <Select
+              value={payerId} // string
+              onValueChange={(value) => setPayerId(value)} // value is string
               required
             >
-              <option value="">Select payer</option>
-              {users.map((u) => (
-                <option key={u.id} value={u.id}>
-                  {u.name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select payer" />
+              </SelectTrigger>
+              <SelectContent>
+                {users.map((u) => (
+                  <SelectItem key={u.id} value={u.id.toString()}>
+                    {u.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="flex flex-col">
             <Label>Participants</Label>
-            <div className="flex flex-col gap-1 max-h-48 overflow-y-auto">
-              {users.map((u) => (
-                <label key={u.id} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedUsers.includes(u.id)}
-                    onChange={(e) =>
-                      handleCheckboxChange(u.id, e.target.checked)
-                    }
-                  />
-                  {u.name}
-                </label>
-              ))}
-            </div>
+            <ScrollArea className="max-h-48 border rounded p-2">
+              <div className="flex flex-col gap-2">
+                {users.map((u) => (
+                  <label key={u.id} className="flex items-center gap-2">
+                    <Checkbox
+                      checked={selectedUsers.includes(u.id)}
+                      onCheckedChange={(checked) =>
+                        handleCheckboxChange(u.id, Boolean(checked))
+                      }
+                      className="ml-2"
+                    />
+                    {u.name}
+                  </label>
+                ))}
+              </div>
+            </ScrollArea>
           </div>
 
           <Button type="submit" disabled={loading}>

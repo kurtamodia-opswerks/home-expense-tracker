@@ -1,4 +1,3 @@
-// components/transactionShares/TransactionShareList.tsx
 import { db } from "@/db/index";
 import { sql } from "drizzle-orm";
 import {
@@ -8,8 +7,15 @@ import {
 } from "@/db/schema";
 import { unstable_cache } from "next/cache";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-// Fetch shares with joins
 const getTransactionShares = unstable_cache(
   async () =>
     await db
@@ -19,6 +25,7 @@ const getTransactionShares = unstable_cache(
         userName: usersTable.name,
         toPay: transactionSharesTable.amount,
         paid: transactionSharesTable.paid,
+        payerId: transactionsTable.payerId,
       })
       .from(transactionSharesTable)
       .leftJoin(
@@ -47,34 +54,26 @@ export default async function TransactionSharesList() {
           <p>No transaction shares found.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full border border-gray-200 divide-y divide-gray-200">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    Transaction
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    User
-                  </th>
-                  <th className="px-4 py-2 text-right text-sm font-medium text-gray-700">
-                    To Pay
-                  </th>
-                  <th className="px-4 py-2 text-right text-sm font-medium text-gray-700">
-                    Paid
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Transaction</TableHead>
+                  <TableHead>User</TableHead>
+                  <TableHead className="text-right">To Pay</TableHead>
+                  <TableHead className="text-center">Receiver</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {shares.map((s) => (
-                  <tr key={s.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2">{s.transactionDescription}</td>
-                    <td className="px-4 py-2">{s.userName}</td>
-                    <td className="px-4 py-2 text-right">₱ {s.toPay}</td>
-                    <td className="px-4 py-2 text-right">{s.paid}</td>
-                  </tr>
+                  <TableRow key={s.id}>
+                    <TableCell>{s.transactionDescription}</TableCell>
+                    <TableCell>{s.userName}</TableCell>
+                    <TableCell className="text-right">₱ {s.toPay}</TableCell>
+                    <TableCell className="text-center">{s.payerId}</TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         )}
       </CardContent>
