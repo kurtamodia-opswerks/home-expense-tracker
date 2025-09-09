@@ -1,101 +1,134 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
-import { addTransaction } from "@/app/actions/transactionActions";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { toast } from "sonner";
+import { addTransactionWithShares } from "@/app/actions/transactionActions";
+import { SelectUser } from "@/db/schema";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending} className="mt-2">
-      {pending ? "Adding..." : "Add Transaction"}
-    </Button>
-  );
-}
-
-interface User {
-  id: number;
-  name: string;
-}
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 
 interface AddTransactionFormProps {
-  users: User[]; // Array of all users
+  users: SelectUser[];
 }
 
 export default function AddTransactionForm({ users }: AddTransactionFormProps) {
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState<number | "">("");
+  const [payerId, setPayerId] = useState<number | "">("");
+  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckboxChange = (userId: number, checked: boolean) => {
+    if (checked) {
+      setSelectedUsers([...selectedUsers, userId]);
+    } else {
+      setSelectedUsers(selectedUsers.filter((id) => id !== userId));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!description || !amount || !payerId || selectedUsers.length === 0) {
+      toast.error("Please fill all fields and select at least one participant");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const result = await addTransactionWithShares({
+        description,
+        amount: Number(amount),
+        payerId: Number(payerId),
+        userIds: selectedUsers,
+      });
+
+      if (result.success) {
+        toast.success(
+          `Transaction created: ${result.transaction?.description}`
+        );
+        setDescription("");
+        setAmount("");
+        setPayerId("");
+        setSelectedUsers([]);
+      } else {
+        toast.error(result.error || "Failed to create transaction");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Add Transaction</CardTitle>
       </CardHeader>
       <CardContent>
-        <form
-          action={async (formData: FormData) => {
-            const description = formData.get("description") as string;
-            const amount = Number(formData.get("amount"));
-            const payerId = Number(formData.get("payerId"));
-
-            const result = await addTransaction({
-              description,
-              amount,
-              payerId,
-            });
-
-            if (result.success)
-              toast.success(
-                `Transaction added: ${result.transaction?.description}`
-              );
-            else toast.error(result.error || "Failed to add transaction");
-          }}
-          className="flex flex-col gap-4"
-        >
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <Label htmlFor="description">Description</Label>
             <Input
               id="description"
-              name="description"
-              placeholder="Groceries"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Groceries, Electricity..."
               required
             />
           </div>
 
           <div className="flex flex-col">
-            <Label htmlFor="amount">Amount (₱)</Label>
+            <Label htmlFor="amount">Amount</Label>
             <Input
               id="amount"
-              name="amount"
               type="number"
-              placeholder="1000"
-              min={0}
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              placeholder="Total amount"
               required
             />
           </div>
 
           <div className="flex flex-col">
-            <Label htmlFor="payerId">Payer</Label>
+            <Label htmlFor="payer">Payer</Label>
             <select
-              id="payerId"
-              name="payerId"
+              id="payer"
+              value={payerId}
+              onChange={(e) => setPayerId(Number(e.target.value))}
               required
-              className="border rounded-md p-2"
-              defaultValue=""
             >
-              <option value="" disabled>
-                Select a user
-              </option>
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.name} (ID: {user.id})
+              <option value="">Select payer</option>
+              {users.map((u) => (
+                <option key={u.id} value={u.id}>
+                  {u.name}
                 </option>
               ))}
             </select>
           </div>
 
-          <SubmitButton />
+          <div className="flex flex-col">
+            <Label>Participants</Label>
+            <div className="flex flex-col gap-1 max-h-48 overflow-y-auto">
+              {users.map((u) => (
+                <label key={u.id} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedUsers.includes(u.id)}
+                    onChange={(e) =>
+                      handleCheckboxChange(u.id, e.target.checked)
+                    }
+                  />
+                  {u.name}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <Button type="submit" disabled={loading}>
+            {loading ? "Adding..." : "Add Transaction"}
+          </Button>
         </form>
       </CardContent>
     </Card>
