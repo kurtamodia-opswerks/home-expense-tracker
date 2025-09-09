@@ -2,26 +2,26 @@
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { deleteUser } from "@/app/actions/userActions";
-
+import { deleteTransaction } from "@/app/actions/transactionActions";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import ConfirmModal from "@/components/ConfirmModal";
 
-interface DeleteUserButtonProps {
-  userId: number;
+interface DeleteTransactionButtonProps {
+  transactionId: number;
 }
 
-export default function DeleteUserButton({ userId }: DeleteUserButtonProps) {
+export default function DeleteTransactionButton({
+  transactionId,
+}: DeleteTransactionButtonProps) {
   const [isPending, startTransition] = useTransition();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDelete = () => {
     startTransition(async () => {
-      const result = await deleteUser(userId);
-
-      if (result.success) toast.success("User deleted successfully");
-      else toast.error(result.error || "Failed to delete user");
+      const result = await deleteTransaction(transactionId);
+      if (result.success) toast.success("Transaction deleted successfully");
+      else toast.error(result.error || "Failed to delete transaction");
       setIsModalOpen(false);
     });
   };
@@ -47,8 +47,8 @@ export default function DeleteUserButton({ userId }: DeleteUserButtonProps) {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleDelete}
-        title="Delete User"
-        description="Are you sure you want to delete this user? This action cannot be undone."
+        title="Delete Transaction"
+        description="Are you sure you want to delete this transaction? This action cannot be undone."
         confirmText="Delete"
         cancelText="Cancel"
       />
