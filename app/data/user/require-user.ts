@@ -1,12 +1,11 @@
 import "server-only";
 
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import { getOrCreateUser } from "./get-or-create-user";
 
 export const requireUser = cache(async () => {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const user = await getOrCreateUser();
 
   if (!user) {
     redirect("/api/auth/login");
