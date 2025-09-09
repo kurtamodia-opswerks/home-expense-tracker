@@ -1,28 +1,7 @@
-import { db } from "@/db/index";
-import { eq } from "drizzle-orm";
-import { usersTable, transactionsTable, SelectTransaction } from "@/db/schema";
-import { unstable_cache } from "next/cache";
+import { SelectTransaction, SelectUser } from "@/db/schema";
 import DeleteTransactionButton from "./DeleteTransactionButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-// Cache the query with a tag
-const getTransactions = unstable_cache(
-  async (): Promise<(SelectTransaction & { payerName: string | null })[]> =>
-    await db
-      .select({
-        id: transactionsTable.id,
-        description: transactionsTable.description,
-        amount: transactionsTable.amount,
-        payerId: transactionsTable.payerId,
-        createdAt: transactionsTable.createdAt,
-        payerName: usersTable.name,
-      })
-      .from(transactionsTable)
-      .leftJoin(usersTable, eq(usersTable.id, transactionsTable.payerId))
-      .all(),
-  ["transactions"],
-  { tags: ["transactions"] }
-);
+import { getTransactions } from "@/app/data/transaction/get-transactions";
 
 export default async function TransactionList() {
   const transactions: (SelectTransaction & { payerName: string | null })[] =

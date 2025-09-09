@@ -1,11 +1,4 @@
-import { db } from "@/db/index";
-import { sql } from "drizzle-orm";
-import {
-  usersTable,
-  transactionsTable,
-  transactionSharesTable,
-} from "@/db/schema";
-import { unstable_cache } from "next/cache";
+import { getTransactionShares } from "@/app/data/transaction/get-transaction-shares";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -15,33 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const getTransactionShares = unstable_cache(
-  async () =>
-    await db
-      .select({
-        id: transactionSharesTable.id,
-        transactionDate: transactionsTable.createdAt,
-        transactionDescription: transactionsTable.description,
-        debtorName: usersTable.name, // debtor
-        toPay: transactionSharesTable.amount,
-        paid: transactionSharesTable.paid,
-        receiverName: sql<string>`payer.name`,
-      })
-      .from(transactionSharesTable)
-      .leftJoin(
-        transactionsTable,
-        sql`${transactionSharesTable.transactionId} = ${transactionsTable.id}`
-      )
-      .leftJoin(
-        usersTable,
-        sql`${transactionSharesTable.userId} = ${usersTable.id}` // debtor
-      )
-      .leftJoin(sql`users AS payer`, sql`transactions.payer_id = payer.id`)
-      .all(),
-  ["transaction_shares"],
-  { tags: ["transaction_shares"] }
-);
 
 export default async function TransactionSharesList() {
   const shares = await getTransactionShares();
