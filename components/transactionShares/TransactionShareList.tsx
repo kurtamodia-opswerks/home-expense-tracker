@@ -21,6 +21,7 @@ const getTransactionShares = unstable_cache(
     await db
       .select({
         id: transactionSharesTable.id,
+        transactionDate: transactionsTable.createdAt,
         transactionDescription: transactionsTable.description,
         debtorName: usersTable.name, // debtor
         toPay: transactionSharesTable.amount,
@@ -46,7 +47,7 @@ export default async function TransactionSharesList() {
   const shares = await getTransactionShares();
 
   return (
-    <Card className="w-full max-w-3xl mt-6">
+    <Card className="w-full max-w-4xl mt-6">
       <CardHeader>
         <CardTitle>Transaction Shares</CardTitle>
       </CardHeader>
@@ -58,6 +59,7 @@ export default async function TransactionSharesList() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Date</TableHead>
                   <TableHead>Transaction</TableHead>
                   <TableHead>Debtor</TableHead>
                   <TableHead className="text-right">To Pay</TableHead>
@@ -67,6 +69,7 @@ export default async function TransactionSharesList() {
               <TableBody>
                 {shares.map((s) => (
                   <TableRow key={s.id}>
+                    <TableCell>{s.transactionDate}</TableCell>
                     <TableCell>{s.transactionDescription}</TableCell>
                     <TableCell>{s.debtorName}</TableCell>
                     <TableCell className="text-right">₱ {s.toPay}</TableCell>
