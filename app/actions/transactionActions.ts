@@ -13,7 +13,9 @@ import {
 export async function addTransaction(transaction: InsertTransaction) {
   try {
     const inserted: SelectTransaction[] = await insertTransaction(transaction);
+    revalidateTag("users");
     revalidateTag("transactions");
+    revalidateTag("transaction_shares");
     return { success: true, transaction: inserted[0] };
   } catch (error) {
     console.error(error);
@@ -26,6 +28,7 @@ export async function addTransaction(transaction: InsertTransaction) {
 export async function deleteTransaction(transactionId: number) {
   try {
     await removeTransaction(transactionId);
+    revalidateTag("users");
     revalidateTag("transactions");
     revalidateTag("transaction_shares");
     return { success: true };
@@ -44,6 +47,7 @@ export async function addTransactionWithShares(data: {
 }) {
   try {
     const insertedTx = await insertTransactionWithShares(data);
+    revalidateTag("users");
     revalidateTag("transactions");
     revalidateTag("transaction_shares");
     return { success: true, transaction: insertedTx[0] };

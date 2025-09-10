@@ -22,7 +22,7 @@ export default async function UserList() {
                 <p>
                   <strong>{user.name}</strong> - {user.email}
                 </p>
-                <DeleteUserButton userId={user.id} />
+                {/* <DeleteUserButton userId={user.id} /> */}
               </li>
             ))}
           </ul>

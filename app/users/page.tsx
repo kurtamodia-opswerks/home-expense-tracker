@@ -1,4 +1,3 @@
-import AddUserForm from "@/components/users/AddUserForm";
 import UserList from "@/components/users/UserList";
 
 export default async function Users() {

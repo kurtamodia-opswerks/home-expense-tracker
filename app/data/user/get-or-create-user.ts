@@ -2,6 +2,7 @@ import { db } from "@/db/index";
 import { usersTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { revalidateTag } from "next/cache";
 
 export async function getOrCreateUser() {
   const { getUser } = getKindeServerSession();
@@ -29,6 +30,10 @@ export async function getOrCreateUser() {
     })
     .returning()
     .get();
+
+  revalidateTag("users");
+  revalidateTag("transactions");
+  revalidateTag("transaction_shares");
 
   return inserted;
 }
