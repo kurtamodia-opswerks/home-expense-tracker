@@ -1,8 +1,8 @@
 "use client";
 
-import { useUser } from "@/app/providers/UserProvider";
+import { useUser } from "@/providers/UserProvider";
 
-export default function Home() {
+export default function LandingPage() {
   const user = useUser();
   return (
     <>

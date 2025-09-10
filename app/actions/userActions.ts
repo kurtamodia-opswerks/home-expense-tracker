@@ -1,28 +1,33 @@
-// app/actions/userActions.ts
+// app/db/actions.ts
 "use server";
 
-import { insertUser, removeUser } from "@/app/data/user/user-mutations";
-import { InsertUser, SelectUser } from "@/db/schema";
-import { revalidateData } from "./revalidate";
+import { db } from "@/db";
+import { homesTable, usersTable } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import {
+  assignUserToHomeMutation,
+  createHomeMutation,
+} from "@/app/data/home/home-mutations";
 
-export async function addUser(user: InsertUser) {
-  try {
-    const inserted: SelectUser[] = await insertUser(user);
-    await revalidateData();
-    return { success: true, user: inserted[0] };
-  } catch (error) {
-    console.error(error);
-    return { success: false, error: "Failed to add user" };
-  }
+// --------------------
+// Homes
+// --------------------
+export async function createHome(name: string, address: string) {
+  const newHome = await createHomeMutation(name, address);
+  return newHome;
 }
 
-export async function deleteUser(userId: number) {
-  try {
-    await removeUser(userId);
-    await revalidateData();
-    return { success: true };
-  } catch (error) {
-    console.error(error);
-    return { success: false, error: "Failed to delete user" };
-  }
+// --------------------
+// Users
+// --------------------
+export async function assignUserToHome(userId: number, homeId: number) {
+  return await assignUserToHomeMutation(userId, homeId);
+}
+
+export async function getUsers() {
+  return db.select().from(usersTable);
+}
+
+export async function getHomes() {
+  return db.select().from(homesTable);
 }

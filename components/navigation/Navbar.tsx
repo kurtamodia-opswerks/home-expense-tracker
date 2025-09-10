@@ -8,7 +8,7 @@ import {
   LoginLink,
   LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
-import { User, CreditCard, Users } from "lucide-react";
+import { User, CreditCard, Users, House } from "lucide-react";
 
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
@@ -40,6 +40,9 @@ export function Navbar() {
       </Link>
 
       <div className="flex items-center gap-4">
+        <Link href="/home">
+          <House />
+        </Link>
         <Link href="/users">
           <User />
         </Link>
@@ -49,6 +52,7 @@ export function Navbar() {
         <Link href="/transaction-shares">
           <Users />
         </Link>
+
         {user ? (
           <LogoutLink className={buttonVariants()}>Logout</LogoutLink>
         ) : (
