@@ -7,7 +7,6 @@ import { SelectUser } from "@/db/schema";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -54,6 +53,7 @@ export default function AddTransactionForm({
         description,
         amount: Number(amount),
         payerId: Number(payerId),
+        homeId: 1,
         userIds: selectedUsers,
       });
 

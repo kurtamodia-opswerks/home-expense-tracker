@@ -39,6 +39,7 @@ export async function addTransactionWithShares(data: {
   description: string;
   amount: number;
   payerId: number;
+  homeId: number;
   userIds: number[];
 }) {
   try {

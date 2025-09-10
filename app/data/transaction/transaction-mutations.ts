@@ -27,6 +27,7 @@ export async function insertTransactionWithShares(data: {
   description: string;
   amount: number;
   payerId: number;
+  homeId: number;
   userIds: number[];
 }) {
   const insertedTx = await db
@@ -35,6 +36,7 @@ export async function insertTransactionWithShares(data: {
       description: data.description,
       amount: data.amount,
       payerId: data.payerId,
+      homeId: data.homeId,
     })
     .returning();
 
