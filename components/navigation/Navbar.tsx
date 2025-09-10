@@ -23,7 +23,7 @@ export function Navbar() {
       </Link>
 
       <div className="flex items-center gap-4">
-        <Link href="/dashboard">
+        <Link href="/users">
           <User />
         </Link>
         <Link href="/transactions">

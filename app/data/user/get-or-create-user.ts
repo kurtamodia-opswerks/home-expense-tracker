@@ -2,7 +2,6 @@ import { db } from "@/db/index";
 import { usersTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { redirect } from "next/navigation";
 
 export async function getOrCreateUser() {
   const { getUser } = getKindeServerSession();
@@ -26,7 +25,7 @@ export async function getOrCreateUser() {
     .values({
       kindeId: user.id,
       name: user.given_name ?? user.email ?? "Unknown",
-      age: 0,
+      age: 18,
       email: user.email!,
     })
     .returning()
