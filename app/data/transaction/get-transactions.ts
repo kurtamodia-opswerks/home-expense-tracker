@@ -18,6 +18,7 @@ export async function getTransactions() {
           description: transactionsTable.description,
           amount: transactionsTable.amount,
           payerId: transactionsTable.payerId,
+          homeId: transactionsTable.homeId,
           createdAt: transactionsTable.createdAt,
           payerName: usersTable.name,
         })

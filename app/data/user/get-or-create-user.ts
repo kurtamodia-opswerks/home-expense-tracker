@@ -31,9 +31,5 @@ export async function getOrCreateUser() {
     .returning()
     .get();
 
-  revalidateTag("users");
-  revalidateTag("transactions");
-  revalidateTag("transaction_shares");
-
   return inserted;
 }

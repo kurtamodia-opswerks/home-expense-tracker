@@ -1,14 +1,14 @@
 // app/actions/userActions.ts
 "use server";
 
-import { revalidateTag } from "next/cache";
 import { insertUser, removeUser } from "@/app/data/user/user-mutations";
 import { InsertUser, SelectUser } from "@/db/schema";
+import { revalidateData } from "./revalidate";
 
 export async function addUser(user: InsertUser) {
   try {
     const inserted: SelectUser[] = await insertUser(user);
-    revalidateTag("users");
+    await revalidateData();
     return { success: true, user: inserted[0] };
   } catch (error) {
     console.error(error);
@@ -19,7 +19,7 @@ export async function addUser(user: InsertUser) {
 export async function deleteUser(userId: number) {
   try {
     await removeUser(userId);
-    revalidateTag("users");
+    await revalidateData();
     return { success: true };
   } catch (error) {
     console.error(error);

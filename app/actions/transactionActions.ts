@@ -2,20 +2,18 @@
 "use server";
 
 import { InsertTransaction, SelectTransaction } from "@/db/schema";
-import { revalidateTag } from "next/cache";
 import {
   insertTransaction,
   removeTransaction,
   insertTransactionWithShares,
 } from "@/app/data/transaction/transaction-mutations";
+import { revalidateData } from "./revalidate";
 
 // Add a new transaction
 export async function addTransaction(transaction: InsertTransaction) {
   try {
     const inserted: SelectTransaction[] = await insertTransaction(transaction);
-    revalidateTag("users");
-    revalidateTag("transactions");
-    revalidateTag("transaction_shares");
+    await revalidateData();
     return { success: true, transaction: inserted[0] };
   } catch (error) {
     console.error(error);
@@ -28,9 +26,7 @@ export async function addTransaction(transaction: InsertTransaction) {
 export async function deleteTransaction(transactionId: number) {
   try {
     await removeTransaction(transactionId);
-    revalidateTag("users");
-    revalidateTag("transactions");
-    revalidateTag("transaction_shares");
+    await revalidateData();
     return { success: true };
   } catch (error) {
     console.error(error);
@@ -47,9 +43,7 @@ export async function addTransactionWithShares(data: {
 }) {
   try {
     const insertedTx = await insertTransactionWithShares(data);
-    revalidateTag("users");
-    revalidateTag("transactions");
-    revalidateTag("transaction_shares");
+    await revalidateData();
     return { success: true, transaction: insertedTx[0] };
   } catch (error) {
     console.error(error);

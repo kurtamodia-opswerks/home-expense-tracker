@@ -2,13 +2,31 @@ import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // --------------------
+// Homes Table
+// --------------------
+export const homesTable = sqliteTable("homes", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(), // e.g., "Sunset Boarding House"
+  address: text("address").notNull(),
+  createdAt: text("created_at")
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+});
+
+export type InsertHome = typeof homesTable.$inferInsert;
+export type SelectHome = typeof homesTable.$inferSelect;
+
+// --------------------
 // Users Table
 // --------------------
 export const usersTable = sqliteTable("users", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  kindeId: text("kinde_id").unique().notNull(), // initially optional if you have existing rows
+  kindeId: text("kinde_id").unique().notNull(),
   name: text("name").notNull(),
   email: text("email").unique().notNull(),
+  homeId: integer("home_id").references(() => homesTable.id, {
+    onDelete: "cascade",
+  }), // link user to a home
 });
 
 export type InsertUser = typeof usersTable.$inferInsert;
@@ -16,15 +34,17 @@ export type SelectUser = typeof usersTable.$inferSelect;
 
 // --------------------
 // Transactions Table
-// Each expense logged in the house
 // --------------------
 export const transactionsTable = sqliteTable("transactions", {
   id: integer("id").primaryKey(),
-  description: text("description").notNull(), // e.g., "Groceries", "Electricity"
-  amount: integer("amount").notNull(), // stored in cents to avoid float issues
+  description: text("description").notNull(),
+  amount: integer("amount").notNull(),
   payerId: integer("payer_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
+  homeId: integer("home_id")
+    .notNull()
+    .references(() => homesTable.id, { onDelete: "cascade" }), // link transaction to a home
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
@@ -35,7 +55,6 @@ export type SelectTransaction = typeof transactionsTable.$inferSelect;
 
 // --------------------
 // Transaction Shares Table
-// Who owes how much for each transaction
 // --------------------
 export const transactionSharesTable = sqliteTable("transaction_shares", {
   id: integer("id").primaryKey(),
@@ -45,8 +64,8 @@ export const transactionSharesTable = sqliteTable("transaction_shares", {
   userId: integer("user_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
-  amount: integer("amount").notNull(), // how much this user owes
-  paid: integer("paid").default(0), // how much has been paid
+  amount: integer("amount").notNull(),
+  paid: integer("paid").default(0),
 });
 
 export type InsertTransactionShare = typeof transactionSharesTable.$inferInsert;
