@@ -18,16 +18,8 @@ export async function createHome(name: string, address: string) {
 }
 
 // --------------------
-// Users
+// Users to Homes
 // --------------------
 export async function assignUserToHome(userId: number, homeId: number) {
   return await assignUserToHomeMutation(userId, homeId);
-}
-
-export async function getUsers() {
-  return db.select().from(usersTable);
-}
-
-export async function getHomes() {
-  return db.select().from(homesTable);
 }

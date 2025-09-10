@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { addTransactionWithShares } from "@/app/actions/transactionActions";
-import { SelectUser } from "@/db/schema";
+import { SelectUser, SelectHome } from "@/db/schema";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -19,16 +19,19 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface AddTransactionFormProps {
   users: SelectUser[];
+  homes: SelectHome[];
   onSuccess?: () => void;
 }
 
 export default function AddTransactionForm({
   users,
+  homes,
   onSuccess,
 }: AddTransactionFormProps) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState<number | "">("");
   const [payerId, setPayerId] = useState<string>("");
+  const [homeId, setHomeId] = useState<string>(""); // store as string for Select
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +45,13 @@ export default function AddTransactionForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!description || !amount || !payerId || selectedUsers.length === 0) {
+    if (
+      !description ||
+      !amount ||
+      !payerId ||
+      !homeId ||
+      selectedUsers.length === 0
+    ) {
       toast.error("Please fill all fields and select at least one participant");
       return;
     }
@@ -53,7 +62,7 @@ export default function AddTransactionForm({
         description,
         amount: Number(amount),
         payerId: Number(payerId),
-        homeId: 1,
+        homeId: Number(homeId),
         userIds: selectedUsers,
       });
 
@@ -64,6 +73,7 @@ export default function AddTransactionForm({
         setDescription("");
         setAmount("");
         setPayerId("");
+        setHomeId("");
         setSelectedUsers([]);
         onSuccess?.();
       } else {
@@ -76,6 +86,7 @@ export default function AddTransactionForm({
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      {/* Description */}
       <div className="flex flex-col">
         <Label htmlFor="description">Description</Label>
         <Input
@@ -87,6 +98,7 @@ export default function AddTransactionForm({
         />
       </div>
 
+      {/* Amount */}
       <div className="flex flex-col">
         <Label htmlFor="amount">Amount</Label>
         <Input
@@ -99,13 +111,10 @@ export default function AddTransactionForm({
         />
       </div>
 
+      {/* Payer */}
       <div className="flex flex-col">
         <Label htmlFor="payer">Payer</Label>
-        <Select
-          value={payerId} // string
-          onValueChange={(value) => setPayerId(value)} // value is string
-          required
-        >
+        <Select value={payerId} onValueChange={setPayerId} required>
           <SelectTrigger>
             <SelectValue placeholder="Select payer" />
           </SelectTrigger>
@@ -119,6 +128,24 @@ export default function AddTransactionForm({
         </Select>
       </div>
 
+      {/* Home */}
+      <div className="flex flex-col">
+        <Label htmlFor="home">Home</Label>
+        <Select value={homeId} onValueChange={setHomeId} required>
+          <SelectTrigger>
+            <SelectValue placeholder="Select home" />
+          </SelectTrigger>
+          <SelectContent>
+            {homes.map((h) => (
+              <SelectItem key={h.id} value={h.id.toString()}>
+                {h.name} — {h.address}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Participants */}
       <div className="flex flex-col">
         <Label>Participants</Label>
         <ScrollArea className="max-h-48 border rounded p-2">

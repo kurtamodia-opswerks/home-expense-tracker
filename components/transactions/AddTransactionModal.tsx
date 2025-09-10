@@ -10,14 +10,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import AddTransactionForm from "./AddTransactionForm";
-import { SelectUser } from "@/db/schema";
+import { SelectHome, SelectUser } from "@/db/schema";
 
 interface AddTransactionModalProps {
   users: SelectUser[];
+  homes: SelectHome[];
 }
 
 export default function AddTransactionModal({
   users,
+  homes,
 }: AddTransactionModalProps) {
   const [open, setOpen] = useState(false);
 
@@ -30,7 +32,11 @@ export default function AddTransactionModal({
         <DialogHeader>
           <DialogTitle>New Transaction</DialogTitle>
         </DialogHeader>
-        <AddTransactionForm users={users} onSuccess={() => setOpen(false)} />
+        <AddTransactionForm
+          users={users}
+          homes={homes}
+          onSuccess={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );
