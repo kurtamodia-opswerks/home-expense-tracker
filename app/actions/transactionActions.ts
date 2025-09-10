@@ -1,27 +1,19 @@
 // app/actions/transactionActions.ts
 "use server";
 
-import { db } from "@/db";
-import {
-  transactionsTable,
-  transactionSharesTable,
-  InsertTransaction,
-  SelectTransaction,
-} from "@/db/schema";
+import { InsertTransaction, SelectTransaction } from "@/db/schema";
 import { revalidateTag } from "next/cache";
-import { eq } from "drizzle-orm";
+import {
+  insertTransaction,
+  removeTransaction,
+  insertTransactionWithShares,
+} from "@/app/data/transaction/transaction-mutations";
 
 // Add a new transaction
 export async function addTransaction(transaction: InsertTransaction) {
   try {
-    const inserted: SelectTransaction[] = await db
-      .insert(transactionsTable)
-      .values(transaction)
-      .returning();
-
-    // Invalidate cache tagged for transactions
+    const inserted: SelectTransaction[] = await insertTransaction(transaction);
     revalidateTag("transactions");
-
     return { success: true, transaction: inserted[0] };
   } catch (error) {
     console.error(error);
@@ -30,16 +22,12 @@ export async function addTransaction(transaction: InsertTransaction) {
 }
 
 // Delete a transaction
+// Delete a transaction
 export async function deleteTransaction(transactionId: number) {
   try {
-    await db
-      .delete(transactionsTable)
-      .where(eq(transactionsTable.id, transactionId));
-
-    // Invalidate cache tagged for transactions
+    await removeTransaction(transactionId);
     revalidateTag("transactions");
     revalidateTag("transaction_shares");
-
     return { success: true };
   } catch (error) {
     console.error(error);
@@ -47,6 +35,7 @@ export async function deleteTransaction(transactionId: number) {
   }
 }
 
+// Add transaction with shares
 export async function addTransactionWithShares(data: {
   description: string;
   amount: number;
@@ -54,38 +43,12 @@ export async function addTransactionWithShares(data: {
   userIds: number[];
 }) {
   try {
-    // Insert the transaction
-    const insertedTx = await db
-      .insert(transactionsTable)
-      .values({
-        description: data.description,
-        amount: data.amount,
-        payerId: data.payerId,
-      })
-      .returning();
-
-    const transactionId = insertedTx[0].id;
-
-    // Calculate equal share per user
-    const shareAmount = Math.floor(data.amount / data.userIds.length);
-
-    // Insert transaction shares
-    await Promise.all(
-      data.userIds.map((userId) =>
-        db.insert(transactionSharesTable).values({
-          transactionId,
-          userId,
-          amount: shareAmount,
-          paid: 0,
-        })
-      )
-    );
-
+    const insertedTx = await insertTransactionWithShares(data);
     revalidateTag("transactions");
     revalidateTag("transaction_shares");
-
     return { success: true, transaction: insertedTx[0] };
   } catch (error) {
+    console.error(error);
     return { success: false, error: "Failed to add transaction with shares" };
   }
 }
