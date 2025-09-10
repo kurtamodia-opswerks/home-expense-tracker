@@ -1,6 +1,14 @@
-import { SelectTransaction, SelectUser } from "@/db/schema";
+import { SelectTransaction } from "@/db/schema";
 import DeleteTransactionButton from "./DeleteTransactionButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { getTransactions } from "@/app/data/transaction/get-transactions";
 
 export default async function TransactionList() {
@@ -8,35 +16,38 @@ export default async function TransactionList() {
     await getTransactions();
 
   return (
-    <Card className="w-full max-w-md mt-6">
+    <Card className="w-full max-w-4xl mt-6">
       <CardHeader>
-        <CardTitle>All Transactions</CardTitle>
+        <CardTitle>Transactions</CardTitle>
       </CardHeader>
       <CardContent>
         {transactions.length === 0 ? (
           <p>No transactions found.</p>
         ) : (
-          <ul className="flex flex-col gap-2">
-            {transactions.map((tx) => (
-              <li
-                key={tx.id}
-                className="border p-2 rounded-md flex justify-between items-center"
-              >
-                <div>
-                  <p>
-                    <strong>{tx.description}</strong> - ₱ {tx.amount}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Payer ID: {tx.payerId}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Payer Name: {tx.payerName ?? "Unknown"}
-                  </p>
-                </div>
-                <DeleteTransactionButton transactionId={tx.id} />
-              </li>
-            ))}
-          </ul>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Payer</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.map((tx) => (
+                  <TableRow key={tx.id}>
+                    <TableCell>{tx.description}</TableCell>
+                    <TableCell>₱ {tx.amount}</TableCell>
+                    <TableCell>{tx.payerName ?? "Unknown"}</TableCell>
+                    <TableCell className="text-right">
+                      <DeleteTransactionButton transactionId={tx.id} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
       </CardContent>
     </Card>

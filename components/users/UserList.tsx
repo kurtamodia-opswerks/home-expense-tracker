@@ -20,7 +20,7 @@ export default async function UserList() {
             {users.map((user) => (
               <li key={user.id} className="border p-2 rounded-md">
                 <p>
-                  <strong>{user.name}</strong> ({user.age}) - {user.email}
+                  <strong>{user.name}</strong> - {user.email}
                 </p>
                 <DeleteUserButton userId={user.id} />
               </li>

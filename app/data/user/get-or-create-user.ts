@@ -25,7 +25,6 @@ export async function getOrCreateUser() {
     .values({
       kindeId: user.id,
       name: user.given_name ?? user.email ?? "Unknown",
-      age: 18,
       email: user.email!,
     })
     .returning()

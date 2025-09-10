@@ -20,9 +20,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface AddTransactionFormProps {
   users: SelectUser[];
+  onSuccess?: () => void;
 }
 
-export default function AddTransactionForm({ users }: AddTransactionFormProps) {
+export default function AddTransactionForm({
+  users,
+  onSuccess,
+}: AddTransactionFormProps) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState<number | "">("");
   const [payerId, setPayerId] = useState<string>("");
@@ -61,6 +65,7 @@ export default function AddTransactionForm({ users }: AddTransactionFormProps) {
         setAmount("");
         setPayerId("");
         setSelectedUsers([]);
+        onSuccess?.();
       } else {
         toast.error(result.error || "Failed to create transaction");
       }
@@ -70,80 +75,73 @@ export default function AddTransactionForm({ users }: AddTransactionFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Add Transaction</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <div className="flex flex-col">
-            <Label htmlFor="description">Description</Label>
-            <Input
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Groceries, Electricity..."
-              required
-            />
-          </div>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <div className="flex flex-col">
+        <Label htmlFor="description">Description</Label>
+        <Input
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Groceries, Electricity..."
+          required
+        />
+      </div>
 
-          <div className="flex flex-col">
-            <Label htmlFor="amount">Amount</Label>
-            <Input
-              id="amount"
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              placeholder="Total amount"
-              required
-            />
-          </div>
+      <div className="flex flex-col">
+        <Label htmlFor="amount">Amount</Label>
+        <Input
+          id="amount"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(Number(e.target.value))}
+          placeholder="Total amount"
+          required
+        />
+      </div>
 
-          <div className="flex flex-col">
-            <Label htmlFor="payer">Payer</Label>
-            <Select
-              value={payerId} // string
-              onValueChange={(value) => setPayerId(value)} // value is string
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select payer" />
-              </SelectTrigger>
-              <SelectContent>
-                {users.map((u) => (
-                  <SelectItem key={u.id} value={u.id.toString()}>
-                    {u.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      <div className="flex flex-col">
+        <Label htmlFor="payer">Payer</Label>
+        <Select
+          value={payerId} // string
+          onValueChange={(value) => setPayerId(value)} // value is string
+          required
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select payer" />
+          </SelectTrigger>
+          <SelectContent>
+            {users.map((u) => (
+              <SelectItem key={u.id} value={u.id.toString()}>
+                {u.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-          <div className="flex flex-col">
-            <Label>Participants</Label>
-            <ScrollArea className="max-h-48 border rounded p-2">
-              <div className="flex flex-col gap-2">
-                {users.map((u) => (
-                  <label key={u.id} className="flex items-center gap-2">
-                    <Checkbox
-                      checked={selectedUsers.includes(u.id)}
-                      onCheckedChange={(checked) =>
-                        handleCheckboxChange(u.id, Boolean(checked))
-                      }
-                      className="ml-2"
-                    />
-                    {u.name}
-                  </label>
-                ))}
-              </div>
-            </ScrollArea>
+      <div className="flex flex-col">
+        <Label>Participants</Label>
+        <ScrollArea className="max-h-48 border rounded p-2">
+          <div className="flex flex-col gap-2">
+            {users.map((u) => (
+              <label key={u.id} className="flex items-center gap-2">
+                <Checkbox
+                  checked={selectedUsers.includes(u.id)}
+                  onCheckedChange={(checked) =>
+                    handleCheckboxChange(u.id, Boolean(checked))
+                  }
+                  className="ml-2"
+                />
+                {u.name}
+              </label>
+            ))}
           </div>
+        </ScrollArea>
+      </div>
 
-          <Button type="submit" disabled={loading}>
-            {loading ? "Adding..." : "Add Transaction"}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+      <Button type="submit" disabled={loading}>
+        {loading ? "Adding..." : "Add Transaction"}
+      </Button>
+    </form>
   );
 }
