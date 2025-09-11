@@ -40,18 +40,22 @@ export function Navbar() {
       </Link>
 
       <div className="flex items-center gap-4">
-        <Link href="/home">
-          <House />
-        </Link>
-        <Link href="/users">
-          <User />
-        </Link>
-        <Link href="/transactions">
-          <CreditCard />
-        </Link>
-        <Link href="/transaction-shares">
-          <Users />
-        </Link>
+        {user && (
+          <>
+            <Link href="/home">
+              <House />
+            </Link>
+            <Link href="/users">
+              <User />
+            </Link>
+            <Link href="/transactions">
+              <CreditCard />
+            </Link>
+            <Link href="/transaction-shares">
+              <Users />
+            </Link>
+          </>
+        )}
 
         {user ? (
           <LogoutLink className={buttonVariants()}>Logout</LogoutLink>
