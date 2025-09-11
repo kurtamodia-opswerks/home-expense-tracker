@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { addTransactionWithShares } from "@/app/actions/transactionActions";
-import { SelectUser, SelectHome } from "@/db/schema";
+import { SelectUser, SelectHome, SelectUser as User } from "@/db/schema";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -20,20 +20,32 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface AddTransactionFormProps {
   users: SelectUser[];
   homes: SelectHome[];
+  currentUser: User | null;
   onSuccess?: () => void;
 }
 
 export default function AddTransactionForm({
   users,
   homes,
+  currentUser,
   onSuccess,
 }: AddTransactionFormProps) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState<number | "">("");
   const [payerId, setPayerId] = useState<string>("");
-  const [homeId, setHomeId] = useState<string>(""); // store as string for Select
+  const [homeId, setHomeId] = useState<string>("");
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Preselect the user's home
+  useEffect(() => {
+    if (currentUser?.homeId) {
+      setHomeId(currentUser.homeId.toString());
+    }
+  }, [currentUser?.homeId]);
+
+  // Only show users in the same home
+  const participants = users.filter((u) => u.homeId === currentUser?.homeId);
 
   const handleCheckboxChange = (userId: number, checked: boolean) => {
     if (checked) {
@@ -73,7 +85,7 @@ export default function AddTransactionForm({
         setDescription("");
         setAmount("");
         setPayerId("");
-        setHomeId("");
+        setHomeId(currentUser?.homeId?.toString() ?? "");
         setSelectedUsers([]);
         onSuccess?.();
       } else {
@@ -119,7 +131,7 @@ export default function AddTransactionForm({
             <SelectValue placeholder="Select payer" />
           </SelectTrigger>
           <SelectContent>
-            {users.map((u) => (
+            {participants.map((u) => (
               <SelectItem key={u.id} value={u.id.toString()}>
                 {u.name}
               </SelectItem>
@@ -128,12 +140,12 @@ export default function AddTransactionForm({
         </Select>
       </div>
 
-      {/* Home */}
+      {/* Home (disabled, just showing current home) */}
       <div className="flex flex-col">
         <Label htmlFor="home">Home</Label>
-        <Select value={homeId} onValueChange={setHomeId} required>
+        <Select value={homeId} disabled>
           <SelectTrigger>
-            <SelectValue placeholder="Select home" />
+            <SelectValue placeholder="No home assigned" />
           </SelectTrigger>
           <SelectContent>
             {homes.map((h) => (
@@ -150,7 +162,7 @@ export default function AddTransactionForm({
         <Label>Participants</Label>
         <ScrollArea className="max-h-48 border rounded p-2">
           <div className="flex flex-col gap-2">
-            {users.map((u) => (
+            {participants.map((u) => (
               <label key={u.id} className="flex items-center gap-2">
                 <Checkbox
                   checked={selectedUsers.includes(u.id)}

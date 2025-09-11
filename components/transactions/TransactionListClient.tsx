@@ -64,6 +64,7 @@ export default function TransactionListClient({
               <TableHeader>
                 <TableRow>
                   <TableHead>Description</TableHead>
+                  <TableHead>Home</TableHead>
                   <TableHead>Amount</TableHead>
                   <TableHead>Payer</TableHead>
                   {activeTab === "mine" && (
@@ -75,6 +76,7 @@ export default function TransactionListClient({
                 {filteredTransactions.map((tx) => (
                   <TableRow key={tx.id}>
                     <TableCell>{tx.description}</TableCell>
+                    <TableCell>{tx.homeId ?? "Unknown"}</TableCell>
                     <TableCell>₱ {tx.amount}</TableCell>
                     <TableCell>{tx.payerName ?? "Unknown"}</TableCell>
                     {activeTab === "mine" && (

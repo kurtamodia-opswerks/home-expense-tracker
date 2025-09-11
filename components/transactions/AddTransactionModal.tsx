@@ -15,11 +15,13 @@ import { SelectHome, SelectUser } from "@/db/schema";
 interface AddTransactionModalProps {
   users: SelectUser[];
   homes: SelectHome[];
+  currentUser: SelectUser | null;
 }
 
 export default function AddTransactionModal({
   users,
   homes,
+  currentUser,
 }: AddTransactionModalProps) {
   const [open, setOpen] = useState(false);
 
@@ -35,6 +37,7 @@ export default function AddTransactionModal({
         <AddTransactionForm
           users={users}
           homes={homes}
+          currentUser={currentUser}
           onSuccess={() => setOpen(false)}
         />
       </DialogContent>

@@ -62,7 +62,9 @@ export default function HomeListClient({
               className="border rounded p-4 flex justify-between items-center"
             >
               <div>
-                <p className="font-medium">{home.name}</p>
+                <p className="font-medium">
+                  {home.id} - {home.name}
+                </p>
                 <p className="text-sm text-gray-500">{home.address}</p>
               </div>
               <Button
