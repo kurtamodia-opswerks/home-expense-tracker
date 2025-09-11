@@ -1,4 +1,3 @@
-import { getUsers } from "@/app/data/user/get-users";
 import {
   Card,
   CardContent,
@@ -7,12 +6,14 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
+import { SelectUser } from "@/db/schema";
 
-export default async function UserList() {
-  const users = await getUsers();
-  const currentUser = await getOrCreateUser();
+interface UserListProps {
+  users: SelectUser[];
+  currentUser: SelectUser | null;
+}
 
+export default async function UserList({ users, currentUser }: UserListProps) {
   const filteredUsers = users.filter(
     (user) => user.homeId === currentUser?.homeId
   );
