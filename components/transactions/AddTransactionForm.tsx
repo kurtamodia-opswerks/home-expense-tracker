@@ -178,7 +178,7 @@ export default function AddTransactionForm({
         </ScrollArea>
       </div>
 
-      <Button type="submit" disabled={loading}>
+      <Button type="submit" disabled={loading || homeId === ""}>
         {loading ? "Adding..." : "Add Transaction"}
       </Button>
     </form>
