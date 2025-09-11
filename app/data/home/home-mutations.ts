@@ -25,3 +25,10 @@ export async function getHomes() {
 export async function assignUserToHomeMutation(userId: number, homeId: number) {
   return db.update(usersTable).set({ homeId }).where(eq(usersTable.id, userId));
 }
+
+export async function leaveHomeMutation(userId: number) {
+  return db
+    .update(usersTable)
+    .set({ homeId: null })
+    .where(eq(usersTable.id, userId));
+}
