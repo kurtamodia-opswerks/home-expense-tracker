@@ -37,12 +37,15 @@ export default function AddTransactionForm({
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Preselect the user's home
+  // Preselect the user's home and payer
   useEffect(() => {
     if (currentUser?.homeId) {
       setHomeId(currentUser.homeId.toString());
     }
-  }, [currentUser?.homeId]);
+    if (currentUser?.id) {
+      setPayerId(currentUser.id.toString());
+    }
+  }, [currentUser?.homeId, currentUser?.id]);
 
   // Only show users in the same home
   const participants = users.filter((u) => u.homeId === currentUser?.homeId);
@@ -123,12 +126,12 @@ export default function AddTransactionForm({
         />
       </div>
 
-      {/* Payer */}
+      {/* Payer (disabled, always current user) */}
       <div className="flex flex-col">
         <Label htmlFor="payer">Payer</Label>
-        <Select value={payerId} onValueChange={setPayerId} required>
+        <Select value={payerId} disabled>
           <SelectTrigger>
-            <SelectValue placeholder="Select payer" />
+            <SelectValue placeholder="No payer assigned" />
           </SelectTrigger>
           <SelectContent>
             {participants.map((u) => (
