@@ -1,7 +1,7 @@
 import TransactionList from "@/components/transactions/TransactionList";
 import AddTransactionModal from "@/components/transactions/AddTransactionModal";
 import { getUsers } from "../data/user/get-users";
-import { getHomes } from "../data/home/home-mutations";
+import { getHomes } from "../data/home/get-homes";
 import { getOrCreateUser } from "../data/user/get-or-create-user";
 
 export default async function Transactions() {

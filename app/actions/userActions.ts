@@ -1,9 +1,6 @@
 // app/db/actions.ts
 "use server";
 
-import { db } from "@/db";
-import { homesTable, usersTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import {
   assignUserToHomeMutation,
   createHomeMutation,

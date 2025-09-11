@@ -1,5 +1,5 @@
 // app/homes/page.tsx
-import { getHomes } from "@/app/data/home/home-mutations";
+import { getHomes } from "@/app/data/home/get-homes";
 import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 import HomeForm from "@/components/home/HomeForm";
 import HomeListClient from "@/components/home/HomeListClient";
