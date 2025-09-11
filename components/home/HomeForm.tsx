@@ -8,8 +8,8 @@ import { Button } from "../ui/button";
 import { InsertHome } from "@/db/schema";
 
 const schema = z.object({
-  name: z.string().min(1),
-  address: z.string().min(1),
+  name: z.string().min(1, "Name is required"),
+  address: z.string().min(1, "Address is required"),
 });
 
 interface HomeFormProps {
@@ -24,6 +24,7 @@ export default function HomeForm({ onSuccess, userId }: HomeFormProps) {
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     defaultValues: { name: "Sunset", address: "" },
@@ -36,7 +37,7 @@ export default function HomeForm({ onSuccess, userId }: HomeFormProps) {
         body: JSON.stringify({ ...data, userId }),
         headers: { "Content-Type": "application/json" },
       });
-      throw new Error();
+      reset({ name: "", address: "" });
       onSuccess();
     } catch (error) {
       setError("root", { message: "Failed to create home" });
