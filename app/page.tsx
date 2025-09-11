@@ -1,9 +1,7 @@
-"use client";
+import { getOrCreateUser } from "./data/user/get-or-create-user";
 
-import { useUser } from "@/providers/UserProvider";
-
-export default function LandingPage() {
-  const user = useUser();
+export default async function LandingPage() {
+  const user = await getOrCreateUser();
   return (
     <>
       {" "}
