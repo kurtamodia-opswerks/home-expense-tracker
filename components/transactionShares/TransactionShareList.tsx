@@ -1,54 +1,11 @@
+// app/components/transactions/TransactionSharesListWrapper.tsx
+import TransactionSharesListClient from "@/components/transactionShares/TransactionSharesListClient";
 import { getTransactionShares } from "@/app/data/transaction/get-transaction-shares";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 
-export default async function TransactionSharesList() {
+export default async function TransactionSharesListWrapper() {
   const shares = await getTransactionShares();
+  const user = await getOrCreateUser();
 
-  return (
-    <Card className="w-full max-w-4xl mt-6">
-      <CardHeader>
-        <CardTitle>Transaction Shares</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {shares.length === 0 ? (
-          <p>No transaction shares found.</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Transaction</TableHead>
-                  <TableHead>Debtor</TableHead>
-                  <TableHead className="text-right">To Pay</TableHead>
-                  <TableHead className="text-center">Receiver</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {shares.map((s) => (
-                  <TableRow key={s.id}>
-                    <TableCell>{s.transactionDate}</TableCell>
-                    <TableCell>{s.transactionDescription}</TableCell>
-                    <TableCell>{s.debtorName}</TableCell>
-                    <TableCell className="text-right">₱ {s.toPay}</TableCell>
-                    <TableCell className="text-center">
-                      {s.receiverName}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
+  return <TransactionSharesListClient shares={shares} currentUser={user} />;
 }

@@ -20,9 +20,11 @@ export async function getTransactionShares() {
           id: transactionSharesTable.id,
           transactionDate: transactionsTable.createdAt,
           transactionDescription: transactionsTable.description,
+          debtorId: transactionSharesTable.userId,
           debtorName: usersTable.name, // debtor
           toPay: transactionSharesTable.amount,
           paid: transactionSharesTable.paid,
+          receiverId: sql<number>`transactions.payer_id`,
           receiverName: sql<string>`payer.name`,
         })
         .from(transactionSharesTable)
