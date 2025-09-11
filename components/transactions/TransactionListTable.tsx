@@ -32,7 +32,7 @@ export default function TransactionListTable({
             <TableHead>Amount</TableHead>
             <TableHead>Payer</TableHead>
             {showActions && (
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="text-center">Actions</TableHead>
             )}
           </TableRow>
         </TableHeader>
@@ -44,7 +44,7 @@ export default function TransactionListTable({
               <TableCell>₱ {tx.amount}</TableCell>
               <TableCell>{tx.payerName ?? "Unknown"}</TableCell>
               {showActions && (
-                <TableCell className="text-right">
+                <TableCell className="flex justify-center">
                   <DeleteTransactionButton transactionId={tx.id} />
                 </TableCell>
               )}
