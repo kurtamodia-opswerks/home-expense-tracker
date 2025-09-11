@@ -26,7 +26,7 @@ export default function HomeForm({ userId }: HomeFormProps) {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
-    defaultValues: { name: "Sunset", address: "" },
+    defaultValues: { name: "", address: "" },
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<InsertHome> = async (data) => {

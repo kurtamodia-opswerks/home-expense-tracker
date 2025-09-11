@@ -5,6 +5,7 @@ import "./globals.css";
 import { Navbar } from "@/components/navigation/Navbar";
 import { UserProvider } from "@/providers/UserProvider";
 import { getOrCreateUser } from "./data/user/get-or-create-user";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default async function RootLayout({
         <UserProvider user={user}>
           <Navbar />
           {children}
+          <Toaster position="top-center" />
         </UserProvider>
       </body>
     </html>
