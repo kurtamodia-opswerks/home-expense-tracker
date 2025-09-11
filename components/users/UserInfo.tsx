@@ -7,13 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { SelectUser } from "@/db/schema";
+import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 
-interface UserInfoProps {
-  currentUser: SelectUser | null;
-}
-
-export default async function UserList({ currentUser }: UserInfoProps) {
+export default async function UserList() {
+  const currentUser = await getOrCreateUser();
   return (
     <>
       {/* User information */}

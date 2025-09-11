@@ -6,14 +6,13 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { SelectUser } from "@/db/schema";
+import { getUsers } from "@/app/data/user/get-users";
+import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 
-interface UserListProps {
-  users: SelectUser[];
-  currentUser: SelectUser | null;
-}
+export default async function UserList() {
+  const users = await getUsers();
+  const currentUser = await getOrCreateUser();
 
-export default async function UserList({ users, currentUser }: UserListProps) {
   const filteredUsers = users.filter(
     (user) => user.homeId === currentUser?.homeId
   );
