@@ -13,13 +13,12 @@ const schema = z.object({
 });
 
 interface HomeFormProps {
-  onSuccess: () => void;
   userId: number;
 }
 
 type FormData = z.infer<typeof schema>;
 
-export default function HomeForm({ onSuccess, userId }: HomeFormProps) {
+export default function HomeForm({ userId }: HomeFormProps) {
   const {
     register,
     handleSubmit,
@@ -38,7 +37,6 @@ export default function HomeForm({ onSuccess, userId }: HomeFormProps) {
         headers: { "Content-Type": "application/json" },
       });
       reset({ name: "", address: "" });
-      onSuccess();
     } catch (error) {
       setError("root", { message: "Failed to create home" });
     }

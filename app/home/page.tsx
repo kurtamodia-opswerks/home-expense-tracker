@@ -1,22 +1,22 @@
-// app/users/page.tsx
-"use client";
-
+// app/homes/page.tsx
+import { getHomes } from "@/app/data/home/home-mutations";
+import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 import HomeForm from "@/components/home/HomeForm";
-import { useState } from "react";
+import HomeListClient from "@/components/home/HomeListClient";
 
-// Temporary: replace with actual logged-in user id
-const loggedInUserId = 1;
-
-export default function HomePage() {
-  const [refreshKey, setRefreshKey] = useState(0);
-
-  const refresh = () => setRefreshKey((prev) => prev + 1);
+export default async function HomesPage() {
+  const homes = await getHomes();
+  const currentUser = await getOrCreateUser();
 
   return (
-    <div className="flex flex-col items-center gap-6 p-6">
-      <h1 className="text-3xl font-bold">Home Expense Tracker App</h1>
+    <div className="flex flex-col items-center gap-6 p-6 w-full max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold">Homes</h1>
 
-      <HomeForm onSuccess={refresh} userId={loggedInUserId} />
+      {/* Create new home */}
+      <HomeForm userId={currentUser?.id ?? 0} />
+
+      {/* List homes with join button */}
+      <HomeListClient homes={homes} currentUser={currentUser} />
     </div>
   );
 }
