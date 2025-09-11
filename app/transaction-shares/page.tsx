@@ -1,7 +1,5 @@
 // app/transaction-shares/page.tsx
-import { getUsers } from "../data/user/get-users";
 import TransactionShareList from "@/components/transactionShares/TransactionShareList";
-import { getTransactions } from "../data/transaction/get-transactions";
 
 export default async function TransactionShares() {
   return (
