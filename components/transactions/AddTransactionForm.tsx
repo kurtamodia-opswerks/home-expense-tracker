@@ -32,20 +32,14 @@ export default function AddTransactionForm({
 }: AddTransactionFormProps) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState<number | "">("");
-  const [payerId, setPayerId] = useState<string>("");
-  const [homeId, setHomeId] = useState<string>("");
+  const [payerId, setPayerId] = useState<string>(
+    currentUser?.id?.toString() ?? ""
+  );
+  const [homeId, setHomeId] = useState<string>(
+    currentUser?.homeId?.toString() ?? ""
+  );
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-
-  // Preselect the user's home and payer
-  useEffect(() => {
-    if (currentUser?.homeId) {
-      setHomeId(currentUser.homeId.toString());
-    }
-    if (currentUser?.id) {
-      setPayerId(currentUser.id.toString());
-    }
-  }, [currentUser?.homeId, currentUser?.id]);
 
   // Only show users in the same home
   const participants = users.filter((u) => u.homeId === currentUser?.homeId);
@@ -126,10 +120,10 @@ export default function AddTransactionForm({
         />
       </div>
 
-      {/* Payer (disabled, always current user) */}
+      {/* Payer */}
       <div className="flex flex-col">
         <Label htmlFor="payer">Payer</Label>
-        <Select value={payerId} disabled>
+        <Select value={payerId} onValueChange={setPayerId}>
           <SelectTrigger>
             <SelectValue placeholder="No payer assigned" />
           </SelectTrigger>

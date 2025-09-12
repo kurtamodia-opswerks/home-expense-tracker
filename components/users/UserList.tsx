@@ -17,6 +17,8 @@ export default async function UserList() {
     (user) => user.homeId === currentUser?.homeId
   );
 
+  console.log(filteredUsers);
+
   return (
     <div className="w-full max-w-md mt-6 flex flex-col gap-4">
       <Card>
@@ -32,24 +34,27 @@ export default async function UserList() {
           {filteredUsers.length === 0 ? (
             <p className="text-muted-foreground">No users found.</p>
           ) : (
-            <ul className="flex flex-col gap-3">
-              {filteredUsers.map((user) => (
-                <li
-                  key={user.id}
-                  className="flex justify-between items-center border rounded-md p-3 hover:shadow-sm transition-shadow"
-                >
-                  <div className="flex flex-col">
-                    <p className="font-medium">{user.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {user.email}
-                    </p>
-                  </div>
-                  {user.id === currentUser?.id && (
-                    <Badge variant="secondary">{"You"}</Badge>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <>
+              {" "}
+              <ul className="flex flex-col gap-3">
+                {filteredUsers.map((user) => (
+                  <li
+                    key={user.id}
+                    className="flex justify-between items-center border rounded-md p-3 hover:shadow-sm transition-shadow"
+                  >
+                    <div className="flex flex-col">
+                      <p className="font-medium">{user.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                    {user.id === currentUser?.id && (
+                      <Badge variant="secondary">{"You"}</Badge>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </CardContent>
       </Card>
