@@ -1,4 +1,3 @@
-// components/home/HomeCardSkeleton.tsx
 import {
   Card,
   CardContent,

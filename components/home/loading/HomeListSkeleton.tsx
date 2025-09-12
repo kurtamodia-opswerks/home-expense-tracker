@@ -1,4 +1,3 @@
-// components/home/HomeListSkeleton.tsx
 import HomeCardSkeleton from "./HomeCardSkeleton";
 import LeaveHomeCardSkeleton from "./LeaveHomeCardSkeleton";
 

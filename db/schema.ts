@@ -1,9 +1,7 @@
 import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-// --------------------
 // Homes Table
-// --------------------
 export const homesTable = sqliteTable("homes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(), // e.g., "Sunset Boarding House"
@@ -16,9 +14,7 @@ export const homesTable = sqliteTable("homes", {
 export type InsertHome = typeof homesTable.$inferInsert;
 export type SelectHome = typeof homesTable.$inferSelect;
 
-// --------------------
 // Users Table
-// --------------------
 export const usersTable = sqliteTable("users", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   kindeId: text("kinde_id").unique().notNull(),
@@ -32,9 +28,7 @@ export const usersTable = sqliteTable("users", {
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
 
-// --------------------
 // Transactions Table
-// --------------------
 export const transactionsTable = sqliteTable("transactions", {
   id: integer("id").primaryKey(),
   description: text("description").notNull(),
@@ -53,9 +47,7 @@ export const transactionsTable = sqliteTable("transactions", {
 export type InsertTransaction = typeof transactionsTable.$inferInsert;
 export type SelectTransaction = typeof transactionsTable.$inferSelect;
 
-// --------------------
 // Transaction Shares Table
-// --------------------
 export const transactionSharesTable = sqliteTable("transaction_shares", {
   id: integer("id").primaryKey(),
   transactionId: integer("transaction_id")

@@ -1,4 +1,3 @@
-// app/components/transactions/MarkAsPaidButton.tsx
 "use client";
 
 import { useTransition } from "react";

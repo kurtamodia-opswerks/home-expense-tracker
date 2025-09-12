@@ -1,4 +1,3 @@
-// db/index.ts
 import { drizzle } from "drizzle-orm/libsql";
 import { config } from "dotenv";
 import * as schema from "./schema";

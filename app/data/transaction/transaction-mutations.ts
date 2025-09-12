@@ -1,4 +1,3 @@
-// data/transaction-mutations.ts
 import { db } from "@/db";
 import {
   transactionsTable,

@@ -1,4 +1,3 @@
-// app/components/transactions/TransactionSharesTable.tsx
 import {
   Table,
   TableBody,

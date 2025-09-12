@@ -1,4 +1,3 @@
-// app/api/homes/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { createHome, assignUserToHome } from "@/app/actions/userActions";
 

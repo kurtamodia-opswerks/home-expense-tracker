@@ -1,4 +1,3 @@
-// components/transactions/TransactionSharesSkeleton.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import TransactionSharesTableSkeleton from "./TransactionSharesTableSkeleton";

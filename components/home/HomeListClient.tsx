@@ -1,4 +1,4 @@
-import type { SelectHome, SelectUser } from "@/db/schema";
+import type { SelectUser } from "@/db/schema";
 import HomeCard from "./HomeCard";
 import LeaveHomeCard from "./LeaveHomeCard";
 import { getHomes } from "@/app/data/home/get-homes";

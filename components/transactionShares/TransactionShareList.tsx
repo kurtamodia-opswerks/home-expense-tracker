@@ -1,4 +1,3 @@
-// app/components/transactions/TransactionSharesListWrapper.tsx
 import { getTransactionShares } from "@/app/data/transaction/get-transaction-shares";
 import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 import TransactionSharesListClient from "@/components/transactionShares/TransactionSharesListClient";

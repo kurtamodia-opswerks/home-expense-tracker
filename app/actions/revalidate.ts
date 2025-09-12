@@ -1,4 +1,3 @@
-// app/actions/revalidate.ts
 "use server";
 
 import { revalidateTag } from "next/cache";

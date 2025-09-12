@@ -1,4 +1,3 @@
-// app/actions/transactionActions.ts
 "use server";
 
 import { InsertTransaction, SelectTransaction } from "@/db/schema";
@@ -21,7 +20,6 @@ export async function addTransaction(transaction: InsertTransaction) {
   }
 }
 
-// Delete a transaction
 // Delete a transaction
 export async function deleteTransaction(transactionId: number) {
   try {

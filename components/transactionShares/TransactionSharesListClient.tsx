@@ -1,4 +1,3 @@
-// app/components/transactions/TransactionSharesListClient.tsx
 "use client";
 
 import { useState } from "react";

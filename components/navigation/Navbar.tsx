@@ -7,8 +7,8 @@ export async function Navbar() {
   return (
     <div className="flex items-center justify-between container mx-auto px-4 md:px-8 py-4">
       <Link href="/">
-        <h1 className="text-4xl font-bold">
-          Expense<span className="text-primary">Tracker</span>
+        <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+          Roomie<span className="text-primary">Split</span>
         </h1>
       </Link>
 

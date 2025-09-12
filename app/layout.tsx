@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Expense Tracker",
+  title: "RoomieSplit",
   description:
     "A simple expense tracker to keep track of your house expenses and share them with your housemates.",
 };

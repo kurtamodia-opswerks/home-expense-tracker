@@ -1,7 +1,4 @@
-// app/transaction-shares/page.tsx
 import TransactionShareList from "@/components/transactionShares/TransactionShareList";
-import { getTransactionShares } from "../data/transaction/get-transaction-shares";
-import { getOrCreateUser } from "../data/user/get-or-create-user";
 import { Suspense } from "react";
 import TransactionSharesSkeleton from "@/components/transactionShares/loading/TransactionSharesSkeleton";
 

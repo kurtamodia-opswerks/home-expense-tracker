@@ -1,4 +1,3 @@
-// app/components/transactions/TransactionListTabs.tsx
 "use client";
 
 interface TransactionListTabsProps {

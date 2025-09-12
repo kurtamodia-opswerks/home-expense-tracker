@@ -1,4 +1,3 @@
-// data/user-mutations.ts
 import { db } from "@/db";
 import { usersTable, InsertUser, SelectUser } from "@/db/schema";
 import { eq } from "drizzle-orm";

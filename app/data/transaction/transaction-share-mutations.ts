@@ -1,4 +1,3 @@
-// data/transaction-share-mutations.ts
 import { db } from "@/db";
 import { transactionSharesTable } from "@/db/schema";
 import { eq } from "drizzle-orm";

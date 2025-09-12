@@ -1,5 +1,3 @@
-// app/components/transactions/TransactionListTable.tsx
-
 import DeleteTransactionButton from "./DeleteTransactionButton";
 import {
   Table,
