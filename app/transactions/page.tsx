@@ -3,6 +3,8 @@ import AddTransactionModal from "@/components/transactions/AddTransactionModal";
 import { getUsers } from "../data/user/get-users";
 import { getHomes } from "../data/home/get-homes";
 import { getOrCreateUser } from "../data/user/get-or-create-user";
+import TransactionCardSkeleton from "@/components/transactions/loading/TransactionCardSkeleton";
+import { Suspense } from "react";
 
 export default async function Transactions() {
   const users = await getUsers();
@@ -21,7 +23,9 @@ export default async function Transactions() {
       />
 
       {/* Table of transactions */}
-      <TransactionList />
+      <Suspense fallback={<TransactionCardSkeleton />}>
+        <TransactionList />
+      </Suspense>
     </div>
   );
 }

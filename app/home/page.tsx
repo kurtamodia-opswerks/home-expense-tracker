@@ -3,9 +3,10 @@ import { getHomes } from "@/app/data/home/get-homes";
 import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 import HomeForm from "@/components/home/HomeForm";
 import HomeListClient from "@/components/home/HomeListClient";
+import HomeListSkeleton from "@/components/home/loading/HomeListSkeleton";
+import { Suspense } from "react";
 
 export default async function HomesPage() {
-  const homes = await getHomes();
   const currentUser = await getOrCreateUser();
 
   return (
@@ -15,8 +16,9 @@ export default async function HomesPage() {
       {/* Create new home */}
       <HomeForm userId={currentUser?.id ?? 0} />
 
-      {/* List homes with join button */}
-      <HomeListClient homes={homes} currentUser={currentUser} />
+      <Suspense fallback={<HomeListSkeleton />}>
+        <HomeListClient currentUser={currentUser} />
+      </Suspense>
     </div>
   );
 }

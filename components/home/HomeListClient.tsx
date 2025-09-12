@@ -1,16 +1,16 @@
 import type { SelectHome, SelectUser } from "@/db/schema";
 import HomeCard from "./HomeCard";
 import LeaveHomeCard from "./LeaveHomeCard";
+import { getHomes } from "@/app/data/home/get-homes";
 
 interface HomeListClientProps {
-  homes: SelectHome[];
   currentUser: SelectUser | null;
 }
 
-export default function HomeListClient({
-  homes,
+export default async function HomeListClient({
   currentUser,
 }: HomeListClientProps) {
+  const homes = await getHomes();
   return (
     <div className="w-full mt-6 flex flex-col gap-4">
       <h2 className="text-xl font-semibold">Available Homes</h2>
