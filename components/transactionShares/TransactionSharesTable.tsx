@@ -57,7 +57,12 @@ export default function TransactionSharesTable({
               </TableCell>
               <TableCell className="text-center">
                 {currentUserId === s.receiverId && (
-                  <MarkAsPaidButton shareId={s.id} />
+                  <MarkAsPaidButton
+                    shareId={s.id}
+                    buttonText={
+                      currentUserId === s.debtorId ? "You" : undefined
+                    }
+                  />
                 )}
               </TableCell>
             </TableRow>

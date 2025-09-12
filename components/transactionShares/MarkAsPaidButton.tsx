@@ -9,9 +9,13 @@ import { useState } from "react";
 
 interface MarkAsPaidButtonProps {
   shareId: number;
+  buttonText?: string;
 }
 
-export default function MarkAsPaidButton({ shareId }: MarkAsPaidButtonProps) {
+export default function MarkAsPaidButton({
+  shareId,
+  buttonText,
+}: MarkAsPaidButtonProps) {
   const [isPending, startTransition] = useTransition();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -31,11 +35,11 @@ export default function MarkAsPaidButton({ shareId }: MarkAsPaidButtonProps) {
     <>
       <Button
         onClick={() => setIsModalOpen(true)}
-        disabled={isPending}
+        disabled={isPending || buttonText === "You"}
         variant="outline"
         size="sm"
       >
-        {isPending ? "Processing..." : "Mark as Paid"}
+        {buttonText ?? (isPending ? "Processing..." : "Mark as Paid")}
       </Button>
 
       <ConfirmModal
