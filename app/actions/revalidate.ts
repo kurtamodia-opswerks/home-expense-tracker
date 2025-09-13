@@ -7,5 +7,7 @@ export async function revalidateData() {
   revalidateTag("users");
   revalidateTag("transactions");
   revalidateTag("transaction_shares");
+  revalidateTag("home-analytics");
+  revalidateTag("user-analytics");
   return true;
 }

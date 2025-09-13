@@ -4,7 +4,6 @@ import {
   assignUserToHomeMutation,
   leaveHomeMutation,
 } from "@/app/data/home/home-mutations";
-import { revalidatePath } from "next/cache";
 import { revalidateData } from "./revalidate";
 
 // Assign user to a home
