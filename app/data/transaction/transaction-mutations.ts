@@ -28,6 +28,7 @@ export async function insertTransactionWithShares(data: {
   payerId: number;
   homeId: number;
   userIds: number[];
+  customShares?: { userId: number; amount: number }[];
 }) {
   const insertedTx = await db
     .insert(transactionsTable)
@@ -40,18 +41,33 @@ export async function insertTransactionWithShares(data: {
     .returning();
 
   const transactionId = insertedTx[0].id;
-  const shareAmount = Math.floor(data.amount / data.userIds.length);
 
-  await Promise.all(
-    data.userIds.map((userId) =>
-      db.insert(transactionSharesTable).values({
-        transactionId,
-        userId,
-        amount: shareAmount,
-        paid: 0,
-      })
-    )
-  );
+  if (data.customShares && data.customShares.length > 0) {
+    await Promise.all(
+      data.customShares.map((share) =>
+        db.insert(transactionSharesTable).values({
+          transactionId,
+          userId: share.userId,
+          amount: share.amount,
+          paid: 0,
+        })
+      )
+    );
+  } else {
+    // ✅ Default equal split
+    const shareAmount = Math.floor(data.amount / data.userIds.length);
+
+    await Promise.all(
+      data.userIds.map((userId) =>
+        db.insert(transactionSharesTable).values({
+          transactionId,
+          userId,
+          amount: shareAmount,
+          paid: 0,
+        })
+      )
+    );
+  }
 
   return insertedTx;
 }

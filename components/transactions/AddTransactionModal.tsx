@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddTransactionForm from "./AddTransactionForm";
+import AddTransactionForm from "./transaction-form/AddTransactionForm";
 import { SelectHome, SelectUser } from "@/db/schema";
 
 interface AddTransactionModalProps {

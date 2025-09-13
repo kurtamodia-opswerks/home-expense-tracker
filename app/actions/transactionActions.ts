@@ -39,6 +39,7 @@ export async function addTransactionWithShares(data: {
   payerId: number;
   homeId: number;
   userIds: number[];
+  customShares?: { userId: number; amount: number }[];
 }) {
   try {
     const insertedTx = await insertTransactionWithShares(data);
