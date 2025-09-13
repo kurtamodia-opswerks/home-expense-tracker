@@ -8,6 +8,8 @@ import {
 import { Badge } from "../ui/badge";
 import type { SelectHome, SelectUser } from "@/db/schema";
 import JoinHomeButton from "./JoinHomeButton";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 interface HomeCardProps {
   home: SelectHome;
@@ -26,7 +28,12 @@ export default function HomeCard({ home, currentUser }: HomeCardProps) {
         </CardTitle>
         <CardDescription>{home.address}</CardDescription>
       </CardHeader>
-      <CardContent className="flex justify-end mt-auto">
+      <CardContent className="flex justify-between mt-auto gap-2">
+        <Link href={`/home/${home.id}`}>
+          <Button variant="outline" size="sm">
+            View
+          </Button>
+        </Link>
         <JoinHomeButton
           homeId={home.id}
           currentUser={currentUser}
