@@ -20,7 +20,7 @@ export default function HomeCard({ home, currentUser }: HomeCardProps) {
   const alreadyInHome = currentUser?.homeId === home.id;
 
   return (
-    <Card className="hover:shadow-lg transition-shadow flex flex-col justify-between w-lg">
+    <Card className="hover:shadow-lg transition-shadow flex flex-col justify-between max-w-xs">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           {home.name}

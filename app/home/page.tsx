@@ -8,15 +8,16 @@ export default async function HomesPage() {
   const currentUser = await getOrCreateUser();
 
   return (
-    <div className="flex flex-col items-center gap-6 p-6 w-full max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold">Homes</h1>
+    <>
+      <div className="flex flex-col items-center gap-6 p-6 w-full">
+        <h1 className="text-3xl font-bold">Homes</h1>
 
-      {/* Create new home */}
-      <HomeForm userId={currentUser?.id ?? 0} />
-
+        {/* Create new home */}
+        <HomeForm userId={currentUser?.id ?? 0} />
+      </div>
       <Suspense fallback={<HomeListSkeleton />}>
         <HomeListClient currentUser={currentUser} />
       </Suspense>
-    </div>
+    </>
   );
 }
