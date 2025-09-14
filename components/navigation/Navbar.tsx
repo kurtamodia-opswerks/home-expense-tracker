@@ -2,6 +2,7 @@ import Link from "next/link";
 import { NavLinks } from "./NavLinks";
 import { KindeLinks } from "./KindeLinks";
 import { Suspense } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 export async function Navbar() {
   return (
@@ -20,6 +21,8 @@ export async function Navbar() {
         <Suspense fallback={<span>Loading...</span>}>
           <KindeLinks />
         </Suspense>
+
+        <ThemeToggle />
       </div>
     </div>
   );

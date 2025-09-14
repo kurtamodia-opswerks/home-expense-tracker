@@ -9,7 +9,7 @@ interface LeaveHomeCardProps {
 
 export default function LeaveHomeCard({ currentUser }: LeaveHomeCardProps) {
   return (
-    <Card className="bg-gray-50">
+    <Card>
       <CardContent className="flex flex-col justify-between items-left gap-6">
         <p className="font-medium">
           You have joined{" "}

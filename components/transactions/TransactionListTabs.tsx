@@ -17,7 +17,7 @@ export default function TransactionListTabs({
         }`}
         onClick={() => onChange("all")}
       >
-        All
+        Current Home Transactions
       </button>
       <button
         className={`px-3 py-1 rounded ${
