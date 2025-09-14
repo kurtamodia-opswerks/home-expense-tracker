@@ -1,4 +1,7 @@
-import DeleteTransactionButton from "./DeleteTransactionButton";
+"use client";
+
+import { useState } from "react";
+import PaginationControls from "@/components/PaginationControls";
 import {
   Table,
   TableBody,
@@ -7,24 +10,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import DeleteTransactionButton from "./DeleteTransactionButton";
 import type { SelectTransaction } from "@/db/schema";
 
 interface TransactionListTableProps {
   transactions: (SelectTransaction & { payerName: string | null })[];
   showActions?: boolean;
+  itemsPerPage?: number;
 }
 
 export default function TransactionListTable({
   transactions,
   showActions = false,
+  itemsPerPage = 5,
 }: TransactionListTableProps) {
-  if (transactions.length === 0) return <p>No transactions found.</p>;
+  if (transactions.length === 0) {
+    return <p>No transactions found.</p>;
+  }
+
+  // client-side pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedTransactions = transactions.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   return (
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Date</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Home</TableHead>
             <TableHead>Amount</TableHead>
@@ -35,8 +52,9 @@ export default function TransactionListTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions.map((tx) => (
+          {paginatedTransactions.map((tx) => (
             <TableRow key={tx.id}>
+              <TableCell>{tx.createdAt}</TableCell>
               <TableCell>{tx.description}</TableCell>
               <TableCell>{tx.homeId ?? "Unknown"}</TableCell>
               <TableCell>₱ {tx.amount}</TableCell>
@@ -50,6 +68,12 @@ export default function TransactionListTable({
           ))}
         </TableBody>
       </Table>
+
+      <PaginationControls
+        totalItems={transactions.length}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { useState } from "react";
+import PaginationControls from "@/components/PaginationControls";
 import {
   Table,
   TableBody,
@@ -22,15 +24,22 @@ interface TransactionShare {
 interface TransactionSharesTableProps {
   shares: TransactionShare[];
   currentUserId: number | null;
+  itemsPerPage?: number;
 }
 
 export default function TransactionSharesTable({
   shares,
   currentUserId,
+  itemsPerPage = 5,
 }: TransactionSharesTableProps) {
   if (shares.length === 0) {
     return <p>No transaction shares found.</p>;
   }
+
+  // client-side pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedShares = shares.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="overflow-x-auto">
@@ -46,7 +55,7 @@ export default function TransactionSharesTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {shares.map((s) => (
+          {paginatedShares.map((s) => (
             <TableRow key={s.id}>
               <TableCell>{s.transactionDate}</TableCell>
               <TableCell>{s.transactionDescription}</TableCell>
@@ -69,6 +78,12 @@ export default function TransactionSharesTable({
           ))}
         </TableBody>
       </Table>
+
+      <PaginationControls
+        totalItems={shares.length}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }
