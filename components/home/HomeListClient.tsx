@@ -24,10 +24,10 @@ export default function HomeListClient({
   }
 
   return (
-    <Carousel className="w-full max-w-4xl">
+    <Carousel className="flex w-full max-w-4xl items-center justify-center">
       <CarouselContent>
         {homes.map((home) => (
-          <CarouselItem key={home.id} className="md:basis-1/2 lg:basis-1/3">
+          <CarouselItem key={home.id} className="flex justify-center">
             <HomeCard home={home} currentUser={currentUser} />
           </CarouselItem>
         ))}
