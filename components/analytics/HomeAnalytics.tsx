@@ -15,15 +15,44 @@ export default async function HomeAnalytics({ homeId }: { homeId: number }) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      {/* Total Expenses */}
+      {/* Summary Metrics */}
       <Card className="col-span-2">
         <CardHeader>
-          <CardTitle className="text-xl font-bold">Total Expenses</CardTitle>
+          <CardTitle className="text-xl font-bold">Home Insights</CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-3xl font-semibold">₱{data.totalExpenses}</p>
+        <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div>
+            <p className="text-sm text-muted-foreground">Total Expenses</p>
+            <p className="text-2xl font-semibold">
+              ₱{data.totalExpenses.toLocaleString()}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Most Frequent Purchase
+            </p>
+            <p className="text-lg font-medium">
+              {data.mostFrequentPurchase?.description ?? "N/A"}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Highest Expense Category
+            </p>
+            <p className="text-lg font-medium">
+              {data.highestExpenseCategory?.description ?? "N/A"}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Biggest Transaction</p>
+            <p className="text-lg font-medium">
+              {data.biggestTransaction?.description ?? "N/A"} ( ₱
+              {data.biggestTransaction?.amount?.toLocaleString() ?? 0})
+            </p>
+          </div>
         </CardContent>
       </Card>
+
       <Charts
         monthlyExpenses={data.monthlyExpenses}
         topSpenders={data.topSpenders}

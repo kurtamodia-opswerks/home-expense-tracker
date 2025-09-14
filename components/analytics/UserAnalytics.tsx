@@ -13,6 +13,7 @@ export default async function UserAnalytics() {
       </div>
     );
   }
+
   const data = await getUserAnalytics(user.id);
 
   if (!data) {
@@ -25,23 +26,29 @@ export default async function UserAnalytics() {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      {/* Totals */}
+      {/* Summary Metrics */}
       <Card className="col-span-2">
         <CardHeader>
-          <CardTitle className="text-xl font-bold">User Analytics</CardTitle>
+          <CardTitle className="text-xl font-bold">User Insights</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-3 gap-4">
+        <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <p className="font-semibold">Total Paid</p>
-            <p className="text-lg">₱{data.totalPaid}</p>
+            <p className="text-sm text-muted-foreground">Total Paid</p>
+            <p className="text-2xl font-semibold">
+              ₱{data.totalPaid.toLocaleString()}
+            </p>
           </div>
           <div>
-            <p className="font-semibold">Total Owed</p>
-            <p className="text-lg">₱{data.totalOwed}</p>
+            <p className="text-sm text-muted-foreground">Total Owed</p>
+            <p className="text-2xl font-semibold">
+              ₱{data.totalOwed.toLocaleString()}
+            </p>
           </div>
           <div>
-            <p className="font-semibold">Total Receivable</p>
-            <p className="text-lg">₱{data.totalReceivable}</p>
+            <p className="text-sm text-muted-foreground">Total Receivable</p>
+            <p className="text-2xl font-semibold">
+              ₱{data.totalReceivable.toLocaleString()}
+            </p>
           </div>
         </CardContent>
       </Card>

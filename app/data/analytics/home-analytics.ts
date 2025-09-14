@@ -43,7 +43,49 @@ export async function getHomeAnalyticsQuery(homeId: number) {
         .groupBy(transactionsTable.payerId, usersTable.name)
         .orderBy(sql`total DESC`);
 
-      return { totalExpenses, monthlyExpenses, topSpenders };
+      // Most frequent purchase description
+      const [mostFrequentPurchase] = await db
+        .select({
+          description: sql<string>`LOWER(${transactionsTable.description})`,
+          count: sql<number>`COUNT(${transactionsTable.id})`,
+        })
+        .from(transactionsTable)
+        .where(eq(transactionsTable.homeId, homeId))
+        .groupBy(transactionsTable.description)
+        .orderBy(sql`COUNT(${transactionsTable.id}) DESC`)
+        .limit(1);
+
+      // Highest expense category
+      const [highestExpenseCategory] = await db
+        .select({
+          description: sql<string>`LOWER(${transactionsTable.description})`,
+          total: sql<number>`SUM(${transactionsTable.amount})`,
+        })
+        .from(transactionsTable)
+        .where(eq(transactionsTable.homeId, homeId))
+        .groupBy(transactionsTable.description)
+        .orderBy(sql`SUM(${transactionsTable.amount}) DESC`)
+        .limit(1);
+
+      const [biggestTransaction] = await db
+        .select({
+          id: transactionsTable.id,
+          description: sql<string>`LOWER(${transactionsTable.description})`,
+          amount: transactionsTable.amount,
+        })
+        .from(transactionsTable)
+        .where(eq(transactionsTable.homeId, homeId))
+        .orderBy(sql`${transactionsTable.amount} DESC`)
+        .limit(1);
+
+      return {
+        totalExpenses,
+        monthlyExpenses,
+        topSpenders,
+        mostFrequentPurchase,
+        highestExpenseCategory,
+        biggestTransaction,
+      };
     },
     ["home-analytics", homeId.toString()],
     { tags: ["home-analytics"] }
