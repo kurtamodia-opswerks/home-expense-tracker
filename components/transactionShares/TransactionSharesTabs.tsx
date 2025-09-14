@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "../ui/button";
+
 interface TransactionSharesTabsProps {
   activeTab: "all" | "receiver" | "debtor";
   onChange: (tab: "all" | "receiver" | "debtor") => void;
@@ -11,30 +13,30 @@ export default function TransactionSharesTabs({
 }: TransactionSharesTabsProps) {
   return (
     <div className="flex gap-2 mt-2">
-      <button
+      <Button
         className={`px-3 py-1 rounded ${
-          activeTab === "all" ? "bg-primary text-white" : "bg-gray-200"
+          activeTab === "all" ? "bg-primary" : "bg-gray-400"
         }`}
         onClick={() => onChange("all")}
       >
         All
-      </button>
-      <button
+      </Button>
+      <Button
         className={`px-3 py-1 rounded ${
-          activeTab === "receiver" ? "bg-primary text-white" : "bg-gray-200"
+          activeTab === "receiver" ? "bg-primary" : "bg-gray-400"
         }`}
         onClick={() => onChange("receiver")}
       >
         As Receiver
-      </button>
-      <button
+      </Button>
+      <Button
         className={`px-3 py-1 rounded ${
-          activeTab === "debtor" ? "bg-primary text-white" : "bg-gray-200"
+          activeTab === "debtor" ? "bg-primary" : "bg-gray-400"
         }`}
         onClick={() => onChange("debtor")}
       >
         As Debtor
-      </button>
+      </Button>
     </div>
   );
 }

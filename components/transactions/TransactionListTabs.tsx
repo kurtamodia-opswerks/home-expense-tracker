@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "../ui/button";
+
 interface TransactionListTabsProps {
   activeTab: "all" | "mine";
   onChange: (tab: "all" | "mine") => void;
@@ -11,22 +13,22 @@ export default function TransactionListTabs({
 }: TransactionListTabsProps) {
   return (
     <div className="flex gap-2 mt-2">
-      <button
+      <Button
         className={`px-3 py-1 rounded ${
-          activeTab === "all" ? "bg-primary text-white" : "bg-gray-200"
+          activeTab === "all" ? "bg-primary" : "bg-gray-400"
         }`}
         onClick={() => onChange("all")}
       >
         Current Home Transactions
-      </button>
-      <button
+      </Button>
+      <Button
         className={`px-3 py-1 rounded ${
-          activeTab === "mine" ? "bg-primary text-white" : "bg-gray-200"
+          activeTab === "mine" ? "bg-primary" : "bg-gray-400"
         }`}
         onClick={() => onChange("mine")}
       >
         My Transactions
-      </button>
+      </Button>
     </div>
   );
 }
