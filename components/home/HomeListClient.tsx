@@ -1,27 +1,39 @@
-import type { SelectUser } from "@/db/schema";
+"use client";
+
+import type { SelectUser, SelectHome } from "@/db/schema";
 import HomeCard from "./HomeCard";
-import LeaveHomeCard from "./LeaveHomeCard";
-import { getHomes } from "@/app/data/home/get-homes";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface HomeListClientProps {
+  homes: SelectHome[];
   currentUser: SelectUser | null;
 }
 
-export default async function HomeListClient({
+export default function HomeListClient({
+  homes,
   currentUser,
 }: HomeListClientProps) {
-  const homes = await getHomes();
+  if (homes.length === 0) {
+    return <p>No homes available.</p>;
+  }
+
   return (
-    <div className="w-full mt-6 flex flex-col gap-4">
-      <h2 className="text-xl font-semibold">Available Homes</h2>
-
-      {currentUser?.homeId && <LeaveHomeCard currentUser={currentUser} />}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <Carousel className="w-full max-w-4xl">
+      <CarouselContent>
         {homes.map((home) => (
-          <HomeCard key={home.id} home={home} currentUser={currentUser} />
+          <CarouselItem key={home.id} className="md:basis-1/2 lg:basis-1/3">
+            <HomeCard home={home} currentUser={currentUser} />
+          </CarouselItem>
         ))}
-      </div>
-    </div>
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
   );
 }
