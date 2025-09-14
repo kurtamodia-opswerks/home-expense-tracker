@@ -19,7 +19,7 @@ export default function TransactionListClient({
 
   const filteredTransactions =
     activeTab === "all"
-      ? transactions
+      ? transactions.filter((tx) => tx.homeId === currentUser?.homeId)
       : transactions.filter((tx) => tx.payerId === currentUser?.id);
 
   return (

@@ -66,7 +66,7 @@ export default function HomeForm({ userId }: HomeFormProps) {
       )}
       <Button
         disabled={isSubmitting}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className=" px-4 py-2 rounded"
         type="submit"
       >
         {isSubmitting ? "Loading" : "Create Home"}

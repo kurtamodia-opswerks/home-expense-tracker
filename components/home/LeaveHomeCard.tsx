@@ -10,7 +10,7 @@ interface LeaveHomeCardProps {
 export default function LeaveHomeCard({ currentUser }: LeaveHomeCardProps) {
   return (
     <Card className="bg-gray-50">
-      <CardContent className="flex justify-between items-center">
+      <CardContent className="flex flex-col justify-between items-left gap-6">
         <p className="font-medium">
           You have joined{" "}
           <Badge variant="secondary">{`Home #${currentUser.homeId}`}</Badge>

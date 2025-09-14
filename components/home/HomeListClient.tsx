@@ -7,18 +7,18 @@ interface HomeListClientProps {
   currentUser: SelectUser | null;
 }
 
-export default async function HomeListClient({
-  currentUser,
-}: HomeListClientProps) {
+async function SidePanel({ currentUser }: HomeListClientProps) {
+  return (
+    <>{currentUser?.homeId && <LeaveHomeCard currentUser={currentUser} />}</>
+  );
+}
+
+async function MainContent({ currentUser }: HomeListClientProps) {
   const homes = await getHomes();
   return (
     <>
-      <div className="w-md mx-auto mt-6 flex flex-col gap-4">
-        <h2 className="text-xl font-semibold">Available Homes</h2>
-
-        {currentUser?.homeId && <LeaveHomeCard currentUser={currentUser} />}
-      </div>
-      <div className="w-6xl mx-auto mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <h2 className="text-xl font-semibold mb-4">Available Homes</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {homes.map((home) => (
           <HomeCard key={home.id} home={home} currentUser={currentUser} />
         ))}
@@ -26,3 +26,6 @@ export default async function HomeListClient({
     </>
   );
 }
+
+const HomeListClient = { SidePanel, MainContent };
+export default HomeListClient;

@@ -31,7 +31,11 @@ export default function TransactionSharesListClient({
   );
 
   const filteredShares = (() => {
-    if (activeTab === "all") return shares;
+    if (activeTab === "all")
+      return shares.filter(
+        (s) =>
+          s.receiverId === currentUser?.id || s.debtorId === currentUser?.id
+      );
     if (activeTab === "receiver")
       return shares.filter(
         (s) =>

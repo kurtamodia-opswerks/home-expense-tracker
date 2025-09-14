@@ -23,7 +23,7 @@ export default function UserAnalyticsCharts({
   const data = [
     {
       name: "Totals",
-      Owed: totalOwed,
+      Debt: totalOwed,
       Receivable: totalReceivable,
     },
   ];
@@ -40,7 +40,7 @@ export default function UserAnalyticsCharts({
             <YAxis type="category" dataKey="name" />
             <Tooltip />
             <Legend />
-            <Bar dataKey="Owed" fill="#ef4444" radius={[0, 4, 4, 0]} />
+            <Bar dataKey="Debt" fill="#ef4444" radius={[0, 4, 4, 0]} />
             <Bar dataKey="Receivable" fill="#22c55e" radius={[0, 4, 4, 0]} />
           </BarChart>
         </ResponsiveContainer>

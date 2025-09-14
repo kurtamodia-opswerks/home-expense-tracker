@@ -39,7 +39,7 @@ export default async function UserAnalytics() {
             </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Total Owed</p>
+            <p className="text-sm text-muted-foreground">Total Debt</p>
             <p className="text-2xl font-semibold">
               ₱{data.totalOwed.toLocaleString()}
             </p>
