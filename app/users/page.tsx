@@ -4,6 +4,7 @@ import UserInfo from "@/components/users/UserInfo";
 import UserList from "@/components/users/UserList";
 import UserAnalytics from "@/components/analytics/UserAnalytics";
 import { Suspense } from "react";
+import UserAnalyticsSkeleton from "@/components/users/loading/UserAnalyticsSkeleton";
 
 export default async function Users() {
   return (
@@ -21,7 +22,7 @@ export default async function Users() {
         </div>
 
         <div className="md:col-span-2">
-          <Suspense fallback={<p>Loading charts...</p>}>
+          <Suspense fallback={<UserAnalyticsSkeleton />}>
             <UserAnalytics />
           </Suspense>
         </div>
