@@ -1,6 +1,6 @@
 import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 import HomeForm from "@/components/home/HomeForm";
-import HomeList from "@/components/home/HomeList";
+import HomeListClient from "@/components/home/HomeListClient";
 import HomeListSkeleton from "@/components/home/loading/HomeListSkeleton";
 import { Suspense } from "react";
 
@@ -15,7 +15,7 @@ export default async function HomesPage() {
       <HomeForm userId={currentUser?.id ?? 0} />
 
       <Suspense fallback={<HomeListSkeleton />}>
-        <HomeList currentUser={currentUser} />
+        <HomeListClient currentUser={currentUser} />
       </Suspense>
     </div>
   );
