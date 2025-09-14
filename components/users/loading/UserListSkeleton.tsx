@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function UserListSkeleton() {
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md mt-6">
       <CardHeader>
         <CardTitle>
           <Skeleton className="h-6 w-48" />
