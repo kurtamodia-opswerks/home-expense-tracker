@@ -21,8 +21,10 @@ export default async function LandingPage() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           {!session && (
-            <Button size="lg" className="gap-2">
-              Get Started <ArrowRight className="h-4 w-4" />
+            <Button variant="default" className="mt-4 gap-2" asChild>
+              <Link href="/api/auth/login">
+                Get Started <ArrowRight className="h-4 w-4" />
+              </Link>
             </Button>
           )}
         </div>
@@ -128,8 +130,11 @@ export default async function LandingPage() {
             Join thousands of users who are already managing their shared
             expenses effortlessly with SplitEase.
           </p>
-          <Button size="lg" className="gap-2">
-            Get Started For Free <ArrowRight className="h-4 w-4" />
+          <Button variant="link" className="mt-4 gap-2" asChild>
+            <Link href="/api/auth/login">
+              Get Started For Free
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </Button>
         </div>
       )}
