@@ -8,13 +8,13 @@ import {
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export async function KindeLinks() {
-  const { getUser } = getKindeServerSession();
+  const { isAuthenticated } = getKindeServerSession();
 
-  const user = await getUser();
+  const isUserAuthenticated = await isAuthenticated();
 
   return (
     <>
-      {user ? (
+      {isUserAuthenticated ? (
         <LogoutLink className={buttonVariants()}>Logout</LogoutLink>
       ) : (
         <>

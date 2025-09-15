@@ -4,7 +4,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 // Homes Table
 export const homesTable = sqliteTable("homes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(), // e.g., "Sunset Boarding House"
+  name: text("name").notNull(),
   address: text("address").notNull(),
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
@@ -22,7 +22,7 @@ export const usersTable = sqliteTable("users", {
   email: text("email").unique().notNull(),
   homeId: integer("home_id").references(() => homesTable.id, {
     onDelete: "cascade",
-  }), // link user to a home
+  }),
 });
 
 export type InsertUser = typeof usersTable.$inferInsert;
@@ -38,7 +38,7 @@ export const transactionsTable = sqliteTable("transactions", {
     .references(() => usersTable.id, { onDelete: "cascade" }),
   homeId: integer("home_id")
     .notNull()
-    .references(() => homesTable.id, { onDelete: "cascade" }), // link transaction to a home
+    .references(() => homesTable.id, { onDelete: "cascade" }),
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),

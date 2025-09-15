@@ -5,11 +5,8 @@ import { db } from "@/db";
 import { sql, eq } from "drizzle-orm";
 import { transactionsTable, usersTable } from "@/db/schema";
 import { unstable_cache } from "next/cache";
-import { requireUser } from "../user/require-user";
 
 export async function getHomeAnalyticsQuery(homeId: number) {
-  await requireUser();
-
   const homeAnalytics = unstable_cache(
     async () => {
       // Total expenses

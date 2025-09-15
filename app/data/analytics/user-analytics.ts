@@ -4,11 +4,8 @@ import { db } from "@/db";
 import { sql, eq, and, ne } from "drizzle-orm";
 import { transactionsTable, transactionSharesTable } from "@/db/schema";
 import { unstable_cache } from "next/cache";
-import { requireUser } from "../user/require-user";
 
 export async function getUserAnalyticsQuery(userId: number, homeId?: number) {
-  await requireUser();
-
   const userAnalytics = unstable_cache(
     async () => {
       // Total paid by user (as payer)

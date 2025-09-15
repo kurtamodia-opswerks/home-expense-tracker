@@ -9,10 +9,7 @@ import {
 } from "@/db/schema";
 import { unstable_cache } from "next/cache";
 
-import { requireUser } from "../user/require-user";
-
 export async function getTransactionShares() {
-  await requireUser();
   const transactionShares = unstable_cache(
     async () =>
       await db
