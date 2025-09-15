@@ -1,7 +1,7 @@
 import "server-only";
 
 import { db } from "@/db/index";
-import { sql } from "drizzle-orm";
+import { sql, desc } from "drizzle-orm";
 import {
   usersTable,
   transactionsTable,
@@ -34,6 +34,7 @@ export async function getTransactionShares() {
           sql`${transactionSharesTable.userId} = ${usersTable.id}` // debtor
         )
         .leftJoin(sql`users AS payer`, sql`transactions.payer_id = payer.id`) // receiver
+        .orderBy(desc(transactionsTable.createdAt))
         .all(),
     ["transaction_shares"],
     { tags: ["transaction_shares"] }

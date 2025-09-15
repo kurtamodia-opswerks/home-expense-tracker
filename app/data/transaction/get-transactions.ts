@@ -1,7 +1,7 @@
 import "server-only";
 
 import { db } from "@/db/index";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { usersTable, transactionsTable, SelectTransaction } from "@/db/schema";
 import { unstable_cache } from "next/cache";
 
@@ -21,6 +21,7 @@ export async function getTransactions() {
         })
         .from(transactionsTable)
         .leftJoin(usersTable, eq(usersTable.id, transactionsTable.payerId))
+        .orderBy(desc(transactionsTable.createdAt))
         .all(),
     ["transactions"],
     { tags: ["transactions"] }

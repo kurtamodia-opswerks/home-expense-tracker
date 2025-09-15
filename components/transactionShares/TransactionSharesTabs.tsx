@@ -27,7 +27,7 @@ export default function TransactionSharesTabs({
         }`}
         onClick={() => onChange("receiver")}
       >
-        As Receiver
+        As Creditor
       </Button>
       <Button
         className={`px-3 py-1 rounded ${
