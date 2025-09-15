@@ -2,9 +2,10 @@ import { getOrCreateUser } from "./data/user/get-or-create-user";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Home, DollarSign, Users, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default async function LandingPage() {
-  await getOrCreateUser();
+  const session = await getOrCreateUser();
 
   return (
     <div className="min-h-screen w-full py-12 px-4 sm:px-6 lg:px-8">
@@ -19,19 +20,18 @@ export default async function LandingPage() {
           family. Track bills, split costs, and settle up—all in one place.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="gap-2">
-            Get Started <ArrowRight className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="lg">
-            How It Works
-          </Button>
+          {!session && (
+            <Button size="lg" className="gap-2">
+              Get Started <ArrowRight className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
 
       {/* Features Grid */}
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-semibold text-center mb-12">
-          How SplitEase Works
+          How RoomieSplit Works
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -48,8 +48,10 @@ export default async function LandingPage() {
                 Connect with your housemates in a shared space and start
                 managing expenses together seamlessly.
               </p>
-              <Button variant="link" className="mt-4 gap-2">
-                Learn more <ArrowRight className="h-4 w-4" />
+              <Button variant="link" className="mt-4 gap-2" asChild>
+                <Link href="/home">
+                  Learn more <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
@@ -67,8 +69,10 @@ export default async function LandingPage() {
                 Record payments and expenses effortlessly so everyone knows
                 where the money goes with detailed tracking.
               </p>
-              <Button variant="link" className="mt-4 gap-2">
-                Learn more <ArrowRight className="h-4 w-4" />
+              <Button variant="link" className="mt-4 gap-2" asChild>
+                <Link href="/transactions">
+                  Learn more <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
@@ -86,8 +90,10 @@ export default async function LandingPage() {
                 Keep track of who owes what and split bills fairly with
                 customizable sharing options.
               </p>
-              <Button variant="link" className="mt-4 gap-2">
-                Learn more <ArrowRight className="h-4 w-4" />
+              <Button variant="link" className="mt-4 gap-2" asChild>
+                <Link href="/transaction-shares">
+                  Learn more <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
@@ -113,18 +119,20 @@ export default async function LandingPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="max-w-3xl mx-auto mt-20 text-center">
-        <h2 className="text-3xl font-semibold mb-6">
-          Ready to simplify shared expenses?
-        </h2>
-        <p className="text-muted-foreground mb-8">
-          Join thousands of users who are already managing their shared expenses
-          effortlessly with SplitEase.
-        </p>
-        <Button size="lg" className="gap-2">
-          Get Started For Free <ArrowRight className="h-4 w-4" />
-        </Button>
-      </div>
+      {!session && (
+        <div className="max-w-3xl mx-auto mt-20 text-center">
+          <h2 className="text-3xl font-semibold mb-6">
+            Ready to simplify shared expenses?
+          </h2>
+          <p className="text-muted-foreground mb-8">
+            Join thousands of users who are already managing their shared
+            expenses effortlessly with SplitEase.
+          </p>
+          <Button size="lg" className="gap-2">
+            Get Started For Free <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
