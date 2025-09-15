@@ -3,30 +3,30 @@
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { markPaidTransactionShare } from "@/app/actions/transactionShareActions";
+import { deleteTransactionShare } from "@/app/actions/transactionShareActions";
 import ConfirmModal from "@/components/ConfirmModal";
 import { useState } from "react";
-import { CircleCheck } from "lucide-react";
+import { Trash } from "lucide-react";
 
-interface MarkAsPaidButtonProps {
+interface DeleteShareButtonProps {
   shareId: number;
-  buttonText?: boolean;
+  buttonText?: string;
 }
 
-export default function MarkAsPaidButton({
+export default function DeleteShareButton({
   shareId,
   buttonText,
-}: MarkAsPaidButtonProps) {
+}: DeleteShareButtonProps) {
   const [isPending, startTransition] = useTransition();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleConfirm = () => {
     startTransition(async () => {
-      const result = await markPaidTransactionShare(shareId);
+      const result = await deleteTransactionShare(shareId);
       if (result.success) {
-        toast.success("Marked as paid");
+        toast.success("Deleted Share Successfully");
       } else {
-        toast.error(result.error || "Failed to mark as paid");
+        toast.error(result.error || "Failed to delete share");
       }
       setIsModalOpen(false);
     });
@@ -36,11 +36,11 @@ export default function MarkAsPaidButton({
     <>
       <Button
         onClick={() => setIsModalOpen(true)}
-        disabled={isPending}
-        variant="outline"
+        disabled={isPending || buttonText === "You"}
+        variant="destructive"
         size="sm"
       >
-        {buttonText ? isPending ? "..." : <CircleCheck /> : <CircleCheck />}
+        {buttonText ?? (isPending ? "Processing..." : <Trash />)}
       </Button>
 
       <ConfirmModal
@@ -48,8 +48,8 @@ export default function MarkAsPaidButton({
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirm}
         title="Confirm Payment"
-        description="Are you sure you want to mark this transaction share as paid?"
-        confirmText="Mark as Paid"
+        description="Are you sure you want to delete this share?"
+        confirmText="Delete"
         cancelText="Cancel"
       />
     </>

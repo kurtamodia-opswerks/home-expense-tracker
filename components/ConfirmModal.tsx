@@ -42,7 +42,10 @@ export default function ConfirmModal({
           <Button variant="outline" onClick={onClose}>
             {cancelText}
           </Button>
-          <Button variant="destructive" onClick={onConfirm}>
+          <Button
+            variant={confirmText === "Mark as Paid" ? "default" : "destructive"}
+            onClick={onConfirm}
+          >
             {confirmText}
           </Button>
         </DialogFooter>

@@ -15,6 +15,7 @@ interface TransactionShare {
   receiverId: number | null;
   receiverName: string | null;
   toPay: number;
+  paid: boolean;
 }
 
 interface TransactionSharesListClientProps {

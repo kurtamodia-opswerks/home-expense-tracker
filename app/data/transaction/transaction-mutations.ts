@@ -49,7 +49,7 @@ export async function insertTransactionWithShares(data: {
           transactionId,
           userId: share.userId,
           amount: share.amount,
-          paid: 0,
+          paid: share.userId === data.payerId ? true : false,
         })
       )
     );
@@ -63,7 +63,7 @@ export async function insertTransactionWithShares(data: {
           transactionId,
           userId,
           amount: shareAmount,
-          paid: 0,
+          paid: userId === data.payerId ? true : false,
         })
       )
     );

@@ -9,6 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import MarkAsPaidButton from "./MarkAsPaidButton";
+import { CircleCheck, UserRoundCheck } from "lucide-react";
+import DeleteShareButton from "./DeleteShareButton";
 
 interface TransactionShare {
   id: number;
@@ -19,6 +21,7 @@ interface TransactionShare {
   receiverId: number | null;
   receiverName: string | null;
   toPay: number;
+  paid: boolean;
 }
 
 interface TransactionSharesTableProps {
@@ -64,14 +67,15 @@ export default function TransactionSharesTable({
               <TableCell className="text-center">
                 {s.receiverName ?? "Unknown"}
               </TableCell>
-              <TableCell className="text-center">
-                {currentUserId === s.receiverId && (
+              <TableCell className="flex gap-2 items-center justify-center">
+                <DeleteShareButton shareId={s.id} />
+                {!s.paid ? (
                   <MarkAsPaidButton
                     shareId={s.id}
-                    buttonText={
-                      currentUserId === s.debtorId ? "You" : undefined
-                    }
+                    buttonText={currentUserId === s.debtorId ? true : false}
                   />
+                ) : (
+                  <CircleCheck className="text-green-500 h-5 w-5 mr-4" />
                 )}
               </TableCell>
             </TableRow>

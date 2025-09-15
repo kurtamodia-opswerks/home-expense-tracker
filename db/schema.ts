@@ -57,7 +57,7 @@ export const transactionSharesTable = sqliteTable("transaction_shares", {
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
   amount: integer("amount").notNull(),
-  paid: integer("paid").default(0),
+  paid: integer("paid", { mode: "boolean" }).notNull().default(false),
 });
 
 export type InsertTransactionShare = typeof transactionSharesTable.$inferInsert;
