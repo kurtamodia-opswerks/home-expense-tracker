@@ -30,16 +30,20 @@ interface TransactionSharesTableProps {
   shares: TransactionShare[];
   currentUserId: number | null;
   itemsPerPage?: number;
+  activeTab: "all" | "receiver" | "debtor";
 }
 
 export default function TransactionSharesTable({
   shares,
   currentUserId,
   itemsPerPage = 10,
+  activeTab,
 }: TransactionSharesTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedShares = shares.slice(startIndex, startIndex + itemsPerPage);
+
+  const showActionsColumn = activeTab !== "debtor" && activeTab !== "all";
 
   if (shares.length === 0) {
     return (
@@ -71,7 +75,9 @@ export default function TransactionSharesTable({
               <TableHead>Receiver</TableHead>
               <TableHead className="text-right">Amount</TableHead>
               <TableHead className="text-center">Status</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
+              {showActionsColumn && (
+                <TableHead className="text-center">Actions</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -125,23 +131,25 @@ export default function TransactionSharesTable({
                     </Badge>
                   )}
                 </TableCell>
-                <TableCell>
-                  <div className="flex gap-2 items-center justify-center">
-                    <DeleteShareButton
-                      shareId={s.id}
-                      variant="ghost"
-                      size="icon"
-                    />
-                    {!s.paid && (
-                      <MarkAsPaidButton
+                {showActionsColumn && (
+                  <TableCell>
+                    <div className="flex gap-2 items-center justify-center">
+                      <DeleteShareButton
                         shareId={s.id}
-                        isDebtor={currentUserId === s.debtorId}
                         variant="ghost"
                         size="icon"
                       />
-                    )}
-                  </div>
-                </TableCell>
+                      {!s.paid && (
+                        <MarkAsPaidButton
+                          shareId={s.id}
+                          isDebtor={currentUserId === s.debtorId}
+                          variant="ghost"
+                          size="icon"
+                        />
+                      )}
+                    </div>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

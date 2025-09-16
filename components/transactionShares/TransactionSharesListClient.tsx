@@ -35,6 +35,7 @@ export default function TransactionSharesListClient({
   shares,
   currentUser,
 }: TransactionSharesListClientProps) {
+  const itemsPerPage = 10;
   const [activeTab, setActiveTab] = useState<"all" | "receiver" | "debtor">(
     "all"
   );
@@ -191,6 +192,8 @@ export default function TransactionSharesListClient({
           <TransactionSharesTable
             shares={filteredShares}
             currentUserId={currentUser?.id ?? null}
+            itemsPerPage={itemsPerPage}
+            activeTab={activeTab}
           />
         </CardContent>
       </Card>
