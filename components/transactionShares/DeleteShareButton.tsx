@@ -1,12 +1,17 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { deleteTransactionShare } from "@/app/actions/transactionShareActions";
 import ConfirmModal from "@/components/ConfirmModal";
-import { useState } from "react";
 import { Trash } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 
 interface DeleteShareButtonProps {
   shareId: number;
@@ -38,20 +43,29 @@ export default function DeleteShareButton({
 
   return (
     <>
-      <Button
-        onClick={() => setIsModalOpen(true)}
-        disabled={isPending || buttonText === "You"}
-        variant="destructive"
-        size="sm"
-      >
-        {buttonText ?? (isPending ? "Processing..." : <Trash />)}
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              disabled={isPending || buttonText === "You"}
+              variant={variant ?? "destructive"}
+              size={size ?? "sm"}
+            >
+              {buttonText ?? (isPending ? "Processing..." : <Trash />)}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Delete Share</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <ConfirmModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirm}
-        title="Confirm Payment"
+        title="Confirm Deletion"
         description="Are you sure you want to delete this share?"
         confirmText="Delete"
         cancelText="Cancel"
