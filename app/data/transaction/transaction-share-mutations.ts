@@ -9,9 +9,7 @@ export async function removeTransactionShare(shareId: number): Promise<void> {
     .where(eq(transactionSharesTable.id, shareId));
 }
 
-export async function markAsPaidTransactionShare(
-  shareId: number
-): Promise<void> {
+export async function updateShareAsPaid(shareId: number): Promise<void> {
   await db
     .update(transactionSharesTable)
     .set({ paid: true })

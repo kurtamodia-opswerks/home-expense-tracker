@@ -1,7 +1,7 @@
 import "server-only";
 
 import { db } from "@/db/index";
-import { sql, desc } from "drizzle-orm";
+import { sql, desc, eq } from "drizzle-orm";
 import {
   usersTable,
   transactionsTable,
@@ -40,4 +40,22 @@ export async function getTransactionShares() {
     { tags: ["transaction_shares"] }
   );
   return transactionShares();
+}
+
+// Get the parent transactionId of a share
+export async function getTransactionIdByShare(shareId: number) {
+  const [share] = await db
+    .select({ transactionId: transactionSharesTable.transactionId })
+    .from(transactionSharesTable)
+    .where(eq(transactionSharesTable.id, shareId));
+
+  return share?.transactionId ?? null;
+}
+
+// Get all shares for a transaction
+export async function getSharesByTransaction(transactionId: number) {
+  return db
+    .select({ paid: transactionSharesTable.paid })
+    .from(transactionSharesTable)
+    .where(eq(transactionSharesTable.transactionId, transactionId));
 }

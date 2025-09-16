@@ -59,8 +59,9 @@ export default function TransactionListTable({
               <TableHead>Date</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Home</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead>Amount</TableHead>
               <TableHead>Payer</TableHead>
+              <TableHead>Status</TableHead>
               {showActions && (
                 <TableHead className="text-center">Actions</TableHead>
               )}
@@ -88,7 +89,7 @@ export default function TransactionListTable({
                     {tx.homeId || "Unknown"}
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium">
+                <TableCell className="font-medium">
                   ₱ {Number(tx.amount).toFixed(2)}
                 </TableCell>
                 <TableCell>
@@ -96,6 +97,23 @@ export default function TransactionListTable({
                     <User className="h-4 w-4 text-muted-foreground" />
                     {tx.payerName || "Unknown"}
                   </div>
+                </TableCell>
+                <TableCell>
+                  {tx.isSettled ? (
+                    <Badge
+                      variant="outline"
+                      className="bg-green-500/10 text-green-700 border-green-200"
+                    >
+                      Settled
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant="outline"
+                      className="bg-amber-500/10 text-amber-700 border-amber-200"
+                    >
+                      Pending
+                    </Badge>
+                  )}
                 </TableCell>
                 {showActions && (
                   <TableCell>

@@ -42,6 +42,9 @@ export const transactionsTable = sqliteTable("transactions", {
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
+  isSettled: integer("is_settled", { mode: "boolean" })
+    .default(false)
+    .notNull(),
 });
 
 export type InsertTransaction = typeof transactionsTable.$inferInsert;

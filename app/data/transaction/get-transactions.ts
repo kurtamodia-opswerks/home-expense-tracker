@@ -18,6 +18,7 @@ export async function getTransactions() {
           homeId: transactionsTable.homeId,
           createdAt: transactionsTable.createdAt,
           payerName: usersTable.name,
+          isSettled: transactionsTable.isSettled,
         })
         .from(transactionsTable)
         .leftJoin(usersTable, eq(usersTable.id, transactionsTable.payerId))

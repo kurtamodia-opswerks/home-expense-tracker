@@ -38,7 +38,7 @@ export default function DeleteTransactionButton({
           "Deleting..."
         ) : (
           <>
-            <Trash /> Settled
+            <Trash />
           </>
         )}
       </Button>

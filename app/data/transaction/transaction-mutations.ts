@@ -71,3 +71,14 @@ export async function insertTransactionWithShares(data: {
 
   return insertedTx;
 }
+
+// Update transaction.isSettled
+export async function updateTransactionSettled(
+  transactionId: number,
+  isSettled: boolean
+) {
+  return db
+    .update(transactionsTable)
+    .set({ isSettled })
+    .where(eq(transactionsTable.id, transactionId));
+}
