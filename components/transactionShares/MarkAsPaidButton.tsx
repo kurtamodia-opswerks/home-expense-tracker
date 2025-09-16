@@ -10,12 +10,16 @@ import { CircleCheck } from "lucide-react";
 
 interface MarkAsPaidButtonProps {
   shareId: number;
-  buttonText?: boolean;
+  isDebtor?: boolean;
+  variant: any;
+  size?: any;
 }
 
 export default function MarkAsPaidButton({
   shareId,
-  buttonText,
+  isDebtor,
+  variant,
+  size,
 }: MarkAsPaidButtonProps) {
   const [isPending, startTransition] = useTransition();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,10 +41,10 @@ export default function MarkAsPaidButton({
       <Button
         onClick={() => setIsModalOpen(true)}
         disabled={isPending}
-        variant="outline"
-        size="sm"
+        variant={variant}
+        size={size}
       >
-        {buttonText ? isPending ? "..." : <CircleCheck /> : <CircleCheck />}
+        {isDebtor ? isPending ? "..." : <CircleCheck /> : <CircleCheck />}
       </Button>
 
       <ConfirmModal

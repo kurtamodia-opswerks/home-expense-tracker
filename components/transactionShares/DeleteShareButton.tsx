@@ -11,11 +11,15 @@ import { Trash } from "lucide-react";
 interface DeleteShareButtonProps {
   shareId: number;
   buttonText?: string;
+  variant?: any;
+  size?: any;
 }
 
 export default function DeleteShareButton({
   shareId,
   buttonText,
+  variant,
+  size,
 }: DeleteShareButtonProps) {
   const [isPending, startTransition] = useTransition();
   const [isModalOpen, setIsModalOpen] = useState(false);

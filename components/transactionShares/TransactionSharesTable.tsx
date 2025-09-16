@@ -9,8 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import MarkAsPaidButton from "./MarkAsPaidButton";
-import { CircleCheck, UserRoundCheck } from "lucide-react";
+import { DollarSign } from "lucide-react";
 import DeleteShareButton from "./DeleteShareButton";
+import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
 
 interface TransactionShare {
   id: number;
@@ -33,61 +35,126 @@ interface TransactionSharesTableProps {
 export default function TransactionSharesTable({
   shares,
   currentUserId,
-  itemsPerPage = 5,
+  itemsPerPage = 10,
 }: TransactionSharesTableProps) {
-  if (shares.length === 0) {
-    return <p>No transaction shares found.</p>;
-  }
-
-  // client-side pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedShares = shares.slice(startIndex, startIndex + itemsPerPage);
 
-  return (
-    <div className="overflow-x-auto">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Transaction</TableHead>
-            <TableHead>Debtor</TableHead>
-            <TableHead className="text-right">To Pay</TableHead>
-            <TableHead className="text-center">Receiver</TableHead>
-            <TableHead className="text-center">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {paginatedShares.map((s) => (
-            <TableRow key={s.id}>
-              <TableCell>{s.transactionDate}</TableCell>
-              <TableCell>{s.transactionDescription}</TableCell>
-              <TableCell>{s.debtorName ?? "Unknown"}</TableCell>
-              <TableCell className="text-right">₱ {s.toPay}</TableCell>
-              <TableCell className="text-center">
-                {s.receiverName ?? "Unknown"}
-              </TableCell>
-              <TableCell className="flex gap-2 items-center justify-center">
-                <DeleteShareButton shareId={s.id} />
-                {!s.paid ? (
-                  <MarkAsPaidButton
-                    shareId={s.id}
-                    buttonText={currentUserId === s.debtorId ? true : false}
-                  />
-                ) : (
-                  <CircleCheck className="text-green-500 h-5 w-5 mr-4" />
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+  if (shares.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <div className="mx-auto w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
+          <DollarSign className="h-10 w-10 text-muted-foreground" />
+        </div>
+        <h3 className="text-lg font-medium mb-2">
+          No transaction shares found
+        </h3>
+        <p className="text-muted-foreground">
+          {currentPage > 1
+            ? "Try going back to the first page"
+            : "When you have transaction shares, they'll appear here"}
+        </p>
+      </div>
+    );
+  }
 
-      <PaginationControls
-        totalItems={shares.length}
-        itemsPerPage={itemsPerPage}
-        onPageChange={setCurrentPage}
-      />
+  return (
+    <div className="space-y-4">
+      <div className="overflow-x-auto rounded-md border">
+        <Table>
+          <TableHeader className="bg-muted/50">
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Debtor</TableHead>
+              <TableHead>Receiver</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="text-center">Status</TableHead>
+              <TableHead className="text-center">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {paginatedShares.map((s) => (
+              <TableRow key={s.id} className={s.paid ? "opacity-70" : ""}>
+                <TableCell className="whitespace-nowrap">
+                  {s.transactionDate
+                    ? format(new Date(s.transactionDate), "MMM dd, yyyy")
+                    : "-"}
+                </TableCell>
+                <TableCell className="max-w-xs truncate">
+                  {s.transactionDescription || "No description"}
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    {s.debtorName || "Unknown"}
+                    {currentUserId === s.debtorId && (
+                      <Badge variant="outline" className="text-xs">
+                        You
+                      </Badge>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    {s.receiverName || "Unknown"}
+                    {currentUserId === s.receiverId && (
+                      <Badge variant="outline" className="text-xs">
+                        You
+                      </Badge>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell className="text-right font-medium">
+                  ₱ {s.toPay.toFixed(2)}
+                </TableCell>
+                <TableCell className="text-center">
+                  {s.paid ? (
+                    <Badge
+                      variant="outline"
+                      className="bg-green-500/10 text-green-700 border-green-200"
+                    >
+                      Paid
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant="outline"
+                      className="bg-amber-500/10 text-amber-700 border-amber-200"
+                    >
+                      Pending
+                    </Badge>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-2 items-center justify-center">
+                    <DeleteShareButton
+                      shareId={s.id}
+                      variant="ghost"
+                      size="icon"
+                    />
+                    {!s.paid && (
+                      <MarkAsPaidButton
+                        shareId={s.id}
+                        isDebtor={currentUserId === s.debtorId}
+                        variant="ghost"
+                        size="icon"
+                      />
+                    )}
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {shares.length > itemsPerPage && (
+        <PaginationControls
+          totalItems={shares.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 }

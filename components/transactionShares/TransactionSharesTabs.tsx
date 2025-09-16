@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 
 interface TransactionSharesTabsProps {
   activeTab: "all" | "receiver" | "debtor";
@@ -12,30 +13,27 @@ export default function TransactionSharesTabs({
   onChange,
 }: TransactionSharesTabsProps) {
   return (
-    <div className="flex gap-2 mt-2">
+    <div className="flex flex-wrap gap-2 mt-2">
       <Button
-        className={`px-3 py-1 rounded ${
-          activeTab === "all" ? "bg-primary" : "bg-gray-400"
-        }`}
+        variant={activeTab === "all" ? "default" : "outline"}
+        size="sm"
         onClick={() => onChange("all")}
       >
-        All
+        All Transactions
       </Button>
       <Button
-        className={`px-3 py-1 rounded ${
-          activeTab === "receiver" ? "bg-primary" : "bg-gray-400"
-        }`}
+        variant={activeTab === "receiver" ? "default" : "outline"}
+        size="sm"
         onClick={() => onChange("receiver")}
       >
-        As Creditor
+        You're Owed
       </Button>
       <Button
-        className={`px-3 py-1 rounded ${
-          activeTab === "debtor" ? "bg-primary" : "bg-gray-400"
-        }`}
+        variant={activeTab === "debtor" ? "default" : "outline"}
+        size="sm"
         onClick={() => onChange("debtor")}
       >
-        As Debtor
+        You Owe
       </Button>
     </div>
   );
