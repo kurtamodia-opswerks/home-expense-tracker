@@ -11,8 +11,3 @@ export async function getHomeAnalytics(homeId: number) {
 export async function getUserAnalytics(userId: number, homeId?: number) {
   return await getUserAnalyticsQuery(userId, homeId);
 }
-
-// If you ever need to force-refresh analytics data:
-export async function revalidateAnalytics() {
-  await revalidateData();
-}
