@@ -13,6 +13,7 @@ import TransactionSharesTabs from "./TransactionSharesTabs";
 import TransactionSharesTable from "./TransactionSharesTable";
 import { Filter, Download, DollarSign, TrendingUp, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { exportSharesToPdf } from "@/lib/exportToPdf";
 
 interface TransactionShare {
   id: number;
@@ -175,7 +176,12 @@ export default function TransactionSharesListClient({
                 </DropdownMenu>
               </div>
 
-              <Button variant="outline" size="sm" className="gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1"
+                onClick={() => exportSharesToPdf(filteredShares)}
+              >
                 <Download className="h-4 w-4" />
                 Export
               </Button>

@@ -37,6 +37,7 @@ export async function getUserAnalyticsQuery(userId: number, homeId?: number) {
           and(
             eq(transactionSharesTable.userId, userId), // user is debtor
             ne(transactionsTable.payerId, userId), // exclude self-debts
+            ne(transactionSharesTable.paid, true), // exclude paid
             homeId ? eq(transactionsTable.homeId, homeId) : sql`1=1`
           )
         );
@@ -55,6 +56,7 @@ export async function getUserAnalyticsQuery(userId: number, homeId?: number) {
           and(
             eq(transactionsTable.payerId, userId), // user is receiver
             ne(transactionSharesTable.userId, userId), // exclude self
+            ne(transactionSharesTable.paid, true), // exclude paid
             homeId ? eq(transactionsTable.homeId, homeId) : sql`1=1`
           )
         );

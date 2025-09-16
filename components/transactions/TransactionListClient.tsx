@@ -13,6 +13,7 @@ import TransactionListTabs from "./TransactionListTabs";
 import TransactionListTable from "./TransactionListTable";
 import { Button } from "@/components/ui/button";
 import { Filter, Download, DollarSign, TrendingUp, Users } from "lucide-react";
+import { exportTransactionsToPdf } from "@/lib/exportToPdf";
 
 interface TransactionListClientProps {
   transactions: (SelectTransaction & { payerName: string | null })[];
@@ -154,7 +155,12 @@ export default function TransactionListClient({
                 </DropdownMenu>
               </div>
 
-              <Button variant="outline" size="sm" className="gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1"
+                onClick={() => exportTransactionsToPdf(filteredTransactions)}
+              >
                 <Download className="h-4 w-4" />
                 Export
               </Button>
