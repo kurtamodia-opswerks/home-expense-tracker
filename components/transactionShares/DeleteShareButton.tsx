@@ -49,7 +49,7 @@ export default function DeleteShareButton({
             <Button
               onClick={() => setIsModalOpen(true)}
               disabled={isPending || buttonText === "You"}
-              variant={variant ?? "destructive"}
+              variant={"destructive"}
               size={size ?? "sm"}
             >
               {buttonText ?? (isPending ? "Processing..." : <Trash />)}
