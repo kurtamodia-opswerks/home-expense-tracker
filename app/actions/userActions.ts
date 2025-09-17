@@ -9,7 +9,7 @@ import { revalidateData } from "./revalidate";
 // Create a new home
 export async function createHome(name: string, address: string) {
   const newHome = await createHomeMutation(name, address);
-  await revalidateData;
+  await revalidateData();
   return newHome;
 }
 
