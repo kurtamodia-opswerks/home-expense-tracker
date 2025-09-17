@@ -13,6 +13,7 @@ import {
   Users,
   Filter,
   Download,
+  PhilippinePeso,
 } from "lucide-react";
 import { getTransactions } from "../data/transaction/get-transactions";
 
@@ -61,7 +62,7 @@ export default async function Transactions() {
               <p className="text-2xl font-bold">₱ {totalSpent.toFixed(2)}</p>
             </div>
             <div className="p-3 rounded-full bg-primary/10">
-              <DollarSign className="h-6 w-6 text-primary" />
+              <PhilippinePeso className="h-6 w-6 text-primary" />
             </div>
           </CardContent>
         </Card>

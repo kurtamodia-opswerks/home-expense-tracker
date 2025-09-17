@@ -11,7 +11,14 @@ import {
 import type { SelectUser } from "@/db/schema";
 import TransactionSharesTabs from "./TransactionSharesTabs";
 import TransactionSharesTable from "./TransactionSharesTable";
-import { Filter, Download, DollarSign, TrendingUp, Users } from "lucide-react";
+import {
+  Filter,
+  Download,
+  DollarSign,
+  TrendingUp,
+  Users,
+  PhilippinePeso,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { exportSharesToPdf } from "@/lib/exportToPdf";
 
@@ -98,7 +105,7 @@ export default function TransactionSharesListClient({
                 <p className="text-2xl font-bold">{filteredShares.length}</p>
               </div>
               <div className="p-2 rounded-full bg-primary/10">
-                <DollarSign className="h-4 w-4 text-primary" />
+                <PhilippinePeso className="h-4 w-4 text-primary" />
               </div>
             </div>
           </CardContent>

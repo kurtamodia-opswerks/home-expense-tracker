@@ -12,7 +12,14 @@ import type { SelectTransaction, SelectUser } from "@/db/schema";
 import TransactionListTabs from "./TransactionListTabs";
 import TransactionListTable from "./TransactionListTable";
 import { Button } from "@/components/ui/button";
-import { Filter, Download, DollarSign, TrendingUp, Users } from "lucide-react";
+import {
+  Filter,
+  Download,
+  DollarSign,
+  TrendingUp,
+  Users,
+  PhilippinePeso,
+} from "lucide-react";
 import { exportTransactionsToPdf } from "@/lib/exportToPdf";
 
 interface TransactionListClientProps {
@@ -79,7 +86,7 @@ export default function TransactionListClient({
                 </p>
               </div>
               <div className="p-2 rounded-full bg-primary/10">
-                <DollarSign className="h-4 w-4 text-primary" />
+                <TrendingUp className="h-4 w-4 text-primary" />
               </div>
             </div>
           </CardContent>
@@ -95,7 +102,7 @@ export default function TransactionListClient({
                 <p className="text-2xl font-bold">₱ {totalAmount.toFixed(2)}</p>
               </div>
               <div className="p-2 rounded-full bg-blue-500/10">
-                <TrendingUp className="h-4 w-4 text-blue-500" />
+                <PhilippinePeso className="h-4 w-4 text-blue-500" />
               </div>
             </div>
           </CardContent>

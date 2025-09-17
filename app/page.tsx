@@ -1,7 +1,13 @@
 import { getOrCreateUser } from "./data/user/get-or-create-user";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, DollarSign, Users, ArrowRight } from "lucide-react";
+import {
+  Home,
+  DollarSign,
+  Users,
+  ArrowRight,
+  PhilippinePeso,
+} from "lucide-react";
 import Link from "next/link";
 
 export default async function LandingPage() {
@@ -62,7 +68,7 @@ export default async function LandingPage() {
           <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-blue-500 h-full">
             <CardHeader className="flex flex-col items-center text-center">
               <div className="p-3 bg-blue-500/10 rounded-full mb-4">
-                <DollarSign className="h-8 w-8 text-blue-500" />
+                <PhilippinePeso className="h-8 w-8 text-blue-500" />
               </div>
               <CardTitle className="text-2xl">Create Transactions</CardTitle>
             </CardHeader>
@@ -110,7 +116,7 @@ export default async function LandingPage() {
             <p className="text-muted-foreground">Active Users</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-primary">$2M+</p>
+            <p className="text-4xl font-bold text-primary">₱2M+</p>
             <p className="text-muted-foreground">Expenses Managed</p>
           </div>
           <div className="text-center">
