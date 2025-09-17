@@ -54,7 +54,7 @@ export async function insertTransactionWithShares(data: {
       )
     );
   } else {
-    // ✅ Default equal split
+    // Default equal split
     const shareAmount = Math.floor(data.amount / data.userIds.length);
 
     await Promise.all(

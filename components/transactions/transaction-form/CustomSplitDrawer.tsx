@@ -101,6 +101,8 @@ export default function CustomSplitDrawer({
             onClick={onSubmit}
             disabled={
               loading ||
+              customShares.length === 0 ||
+              customShares.every((s) => s.amount === 0) ||
               customShares.some((s) => s.amount < 0) ||
               total !== Number(amount)
             }
