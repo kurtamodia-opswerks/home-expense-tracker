@@ -4,7 +4,9 @@ import UserAnalyticsCharts from "./UserAnalyticsCharts";
 import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 
 export default async function UserAnalytics() {
-  const user = await getOrCreateUser();
+  type User = Awaited<ReturnType<typeof getOrCreateUser>>;
+
+  const user: User = await getOrCreateUser();
 
   if (!user) {
     return (

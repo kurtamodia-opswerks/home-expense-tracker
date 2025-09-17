@@ -9,7 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 
 export default async function UserList() {
-  const currentUser = await getOrCreateUser();
+  type SelectUser = Awaited<ReturnType<typeof getOrCreateUser>>;
+  const currentUser: SelectUser = await getOrCreateUser();
   return (
     <>
       {/* User information */}

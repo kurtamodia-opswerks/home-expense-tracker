@@ -3,7 +3,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Charts from "./HomeAnalyticsCharts";
 
 export default async function HomeAnalytics({ homeId }: { homeId: number }) {
-  const data = await getHomeAnalytics(homeId);
+  type Analytics = Awaited<ReturnType<typeof getHomeAnalytics>>;
+  const data: Analytics = await getHomeAnalytics(homeId);
 
   if (!data) {
     return (

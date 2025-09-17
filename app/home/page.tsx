@@ -6,7 +6,8 @@ import LeaveHomeCardSkeleton from "@/components/home/loading/LeaveHomeCardSkelet
 import { Suspense } from "react";
 
 export default async function HomesPage() {
-  const currentUser = await getOrCreateUser();
+  type User = Awaited<ReturnType<typeof getOrCreateUser>>;
+  const currentUser: User = await getOrCreateUser();
 
   return (
     <div className="flex flex-col p-6 w-full">

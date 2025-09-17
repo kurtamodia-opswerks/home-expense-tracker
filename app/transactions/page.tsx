@@ -18,9 +18,12 @@ import {
 import { getTransactions } from "../data/transaction/get-transactions";
 
 export default async function Transactions() {
+  type SelectUser = Awaited<ReturnType<typeof getOrCreateUser>>;
+  type SelectHome = Awaited<ReturnType<typeof getHomes>>;
+
   const users = await getUsers();
-  const homes = await getHomes();
-  const currentUser = await getOrCreateUser();
+  const homes: SelectHome = await getHomes();
+  const currentUser: SelectUser = await getOrCreateUser();
 
   // Calculate stats for the dashboard
   const userTransactions = await getTransactions();
@@ -102,7 +105,7 @@ export default async function Transactions() {
                 Home Members
               </p>
               <p className="text-2xl font-bold">
-                {users.filter((u) => u.homeId === currentUser?.homeId).length}
+                {users?.filter((u) => u?.homeId === currentUser?.homeId).length}
               </p>
             </div>
             <div className="p-3 rounded-full bg-amber-500/10">

@@ -10,8 +10,9 @@ import { getUsers } from "@/app/data/user/get-users";
 import { getOrCreateUser } from "@/app/data/user/get-or-create-user";
 
 export default async function UserList() {
+  type SelectUser = Awaited<ReturnType<typeof getOrCreateUser>>;
   const users = await getUsers();
-  const currentUser = await getOrCreateUser();
+  const currentUser: SelectUser = await getOrCreateUser();
 
   const filteredUsers = users.filter(
     (user) => user.homeId === currentUser?.homeId
