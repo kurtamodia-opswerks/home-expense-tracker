@@ -15,10 +15,14 @@ export async function KindeLinks() {
   return (
     <>
       {isUserAuthenticated ? (
-        <LogoutLink className={buttonVariants()}>Logout</LogoutLink>
+        <LogoutLink className={buttonVariants()} postLogoutRedirectURL="/">
+          Logout
+        </LogoutLink>
       ) : (
         <>
-          <LoginLink className={buttonVariants()}>Login</LoginLink>
+          <LoginLink className={buttonVariants()} postLoginRedirectURL="/">
+            Login
+          </LoginLink>
           <RegisterLink className={buttonVariants({ variant: "outline" })}>
             Register
           </RegisterLink>
