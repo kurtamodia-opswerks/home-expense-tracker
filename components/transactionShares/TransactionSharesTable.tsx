@@ -134,11 +134,13 @@ export default function TransactionSharesTable({
                 {showActionsColumn && (
                   <TableCell>
                     <div className="flex gap-2 items-center justify-center">
-                      <DeleteShareButton
-                        shareId={s.id}
-                        variant="ghost"
-                        size="icon"
-                      />
+                      {s.paid && (
+                        <DeleteShareButton
+                          shareId={s.id}
+                          variant="ghost"
+                          size="icon"
+                        />
+                      )}
                       {!s.paid && (
                         <MarkAsPaidButton
                           shareId={s.id}
