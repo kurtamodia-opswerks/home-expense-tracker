@@ -14,7 +14,6 @@ import TransactionSharesTable from "./TransactionSharesTable";
 import {
   Filter,
   Download,
-  DollarSign,
   TrendingUp,
   Users,
   PhilippinePeso,

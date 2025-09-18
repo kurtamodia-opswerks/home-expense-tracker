@@ -1,13 +1,7 @@
 import { getOrCreateUser } from "./data/user/get-or-create-user";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Home,
-  DollarSign,
-  Users,
-  ArrowRight,
-  PhilippinePeso,
-} from "lucide-react";
+import { Home, Users, ArrowRight, PhilippinePeso } from "lucide-react";
 import Link from "next/link";
 
 export default async function LandingPage() {

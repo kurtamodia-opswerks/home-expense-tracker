@@ -6,15 +6,7 @@ import { getOrCreateUser } from "../data/user/get-or-create-user";
 import TransactionCardSkeleton from "@/components/transactions/loading/TransactionCardSkeleton";
 import { Suspense } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  DollarSign,
-  TrendingUp,
-  Home,
-  Users,
-  Filter,
-  Download,
-  PhilippinePeso,
-} from "lucide-react";
+import { TrendingUp, Home, Users, PhilippinePeso } from "lucide-react";
 import { getTransactions } from "../data/transaction/get-transactions";
 
 export default async function Transactions() {

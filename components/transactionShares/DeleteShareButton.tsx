@@ -23,7 +23,6 @@ interface DeleteShareButtonProps {
 export default function DeleteShareButton({
   shareId,
   buttonText,
-  variant,
   size,
 }: DeleteShareButtonProps) {
   const [isPending, startTransition] = useTransition();

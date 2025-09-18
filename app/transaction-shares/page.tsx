@@ -2,7 +2,6 @@ import TransactionShareList from "@/components/transactionShares/TransactionShar
 import { Suspense } from "react";
 import TransactionSharesSkeleton from "@/components/transactionShares/loading/TransactionSharesSkeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, TrendingUp, Users, CheckCircle } from "lucide-react";
 
 export default async function TransactionShares() {
   return (
