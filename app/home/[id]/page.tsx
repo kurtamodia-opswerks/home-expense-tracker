@@ -2,14 +2,15 @@ import HomeAnalytics from "@/components/analytics/HomeAnalytics";
 import HomeAnalyticsSkeleton from "@/components/home/loading/HomeAnalyticsSkeleton";
 import { Suspense } from "react";
 
-type HomePageProps = {
+// Let Next.js infer params properly
+type PageProps = {
   params: {
     id: string;
   };
 };
 
-export default function HomePage({ params }: HomePageProps) {
-  const homeId = Number(params.id); // safer + clearer than parseInt
+export default function HomePage({ params }: PageProps) {
+  const homeId = Number(params.id);
 
   return (
     <div className="p-6">
