@@ -25,7 +25,7 @@ export default function TransactionSharesTabs({
         size="sm"
         onClick={() => onChange("receiver")}
       >
-        You're Owed
+        {"You're Owed"}
       </Button>
       <Button
         variant={activeTab === "debtor" ? "default" : "outline"}

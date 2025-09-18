@@ -131,7 +131,7 @@ export default function TransactionSharesListClient({
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">
-                  You're Owed
+                  {"You're Owed"}
                 </p>
                 <p className="text-2xl font-bold">
                   ₱ {totalToReceive.toFixed(2)}

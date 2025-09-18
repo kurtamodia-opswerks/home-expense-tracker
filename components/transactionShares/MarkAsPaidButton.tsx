@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { toast } from "sonner";
 import { markPaidTransactionShare } from "@/app/actions/transactionShareActions";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -12,12 +12,13 @@ import {
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
+import { VariantProps } from "class-variance-authority";
 
 interface MarkAsPaidButtonProps {
   shareId: number;
   isDebtor?: boolean;
-  variant: any;
-  size?: any;
+  variant: VariantProps<typeof buttonVariants>["variant"];
+  size?: VariantProps<typeof buttonVariants>["size"];
 }
 
 export default function MarkAsPaidButton({

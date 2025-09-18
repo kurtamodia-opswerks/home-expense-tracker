@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SelectUser, SelectHome, SelectUser as User } from "@/db/schema";
+import { SelectUser, SelectHome } from "@/db/schema";
 
 interface TransactionFieldsProps {
   description: string;

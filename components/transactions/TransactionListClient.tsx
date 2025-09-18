@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import {
   Filter,
   Download,
-  DollarSign,
   TrendingUp,
   Users,
   PhilippinePeso,

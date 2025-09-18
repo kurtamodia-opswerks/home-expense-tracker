@@ -36,7 +36,7 @@ export default function HomeForm({ userId }: HomeFormProps) {
         headers: { "Content-Type": "application/json" },
       });
       reset({ name: "", address: "" });
-    } catch (error) {
+    } catch (_error) {
       setError("root", { message: "Failed to create home" });
     }
   };
