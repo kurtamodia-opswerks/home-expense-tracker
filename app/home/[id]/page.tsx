@@ -1,15 +1,9 @@
+import { type ResolvingMetadata } from "next";
 import HomeAnalytics from "@/components/analytics/HomeAnalytics";
 import HomeAnalyticsSkeleton from "@/components/home/loading/HomeAnalyticsSkeleton";
 import { Suspense } from "react";
 
-// Let Next.js infer params properly
-type PageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default function HomePage({ params }: PageProps) {
+export default function HomePage({ params }: { params: { id: string } }) {
   const homeId = Number(params.id);
 
   return (
