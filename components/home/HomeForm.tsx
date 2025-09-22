@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import { InsertHome } from "@/db/schema";
+import { createHomeAction } from "@/app/actions/createHomeAction";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -28,15 +29,11 @@ export default function HomeForm({ userId }: HomeFormProps) {
     defaultValues: { name: "", address: "" },
     resolver: zodResolver(schema),
   });
-  const onSubmit: SubmitHandler<InsertHome> = async (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      await fetch("/api/homes", {
-        method: "POST",
-        body: JSON.stringify({ ...data, userId }),
-        headers: { "Content-Type": "application/json" },
-      });
+      await createHomeAction({ ...data, userId });
       reset({ name: "", address: "" });
-    } catch {
+    } catch (err) {
       setError("root", { message: "Failed to create home" });
     }
   };
